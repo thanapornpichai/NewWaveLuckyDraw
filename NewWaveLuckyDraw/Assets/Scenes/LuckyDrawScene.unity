@@ -816,6 +816,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 284431526}
+  - component: {fileID: 284431527}
   m_Layer: 5
   m_Name: '[Group] - RewardL (3)'
   m_TagString: Untagged
@@ -845,6 +846,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &284431527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284431525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d191f9c2d18e74da6dd00bf4ca426f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewardId: reward_0
+  rewardName: Reward
+  iconImage: {fileID: 0}
+  bulbImage: {fileID: 0}
+  frameImage: {fileID: 0}
+  defaultSprite: {fileID: 0}
 --- !u!1 &289977503
 GameObject:
   m_ObjectHideFlags: 0
@@ -1799,6 +1818,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 418463591}
+  - component: {fileID: 418463592}
   m_Layer: 5
   m_Name: '[Group] - RewardR'
   m_TagString: Untagged
@@ -1828,6 +1848,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &418463592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418463590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d191f9c2d18e74da6dd00bf4ca426f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewardId: reward_0
+  rewardName: Reward
+  iconImage: {fileID: 0}
+  bulbImage: {fileID: 0}
+  frameImage: {fileID: 0}
+  defaultSprite: {fileID: 0}
 --- !u!1 &501176497
 GameObject:
   m_ObjectHideFlags: 0
@@ -1837,6 +1875,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 501176498}
+  - component: {fileID: 501176499}
   m_Layer: 5
   m_Name: '[Group] - RewardL (1)'
   m_TagString: Untagged
@@ -1866,6 +1905,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &501176499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501176497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d191f9c2d18e74da6dd00bf4ca426f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewardId: reward_0
+  rewardName: Reward
+  iconImage: {fileID: 0}
+  bulbImage: {fileID: 0}
+  frameImage: {fileID: 0}
+  defaultSprite: {fileID: 0}
 --- !u!1 &569617182
 GameObject:
   m_ObjectHideFlags: 0
@@ -2385,6 +2442,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 696223187}
+  - component: {fileID: 696223188}
   m_Layer: 5
   m_Name: '[Group] - RewardL (2)'
   m_TagString: Untagged
@@ -2414,6 +2472,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &696223188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696223186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d191f9c2d18e74da6dd00bf4ca426f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewardId: reward_0
+  rewardName: Reward
+  iconImage: {fileID: 0}
+  bulbImage: {fileID: 0}
+  frameImage: {fileID: 0}
+  defaultSprite: {fileID: 0}
 --- !u!1 &762605820
 GameObject:
   m_ObjectHideFlags: 0
@@ -2938,6 +3014,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 897358696}
+  - component: {fileID: 897358697}
   m_Layer: 5
   m_Name: '[Group] - RewardL'
   m_TagString: Untagged
@@ -2967,6 +3044,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &897358697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897358695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d191f9c2d18e74da6dd00bf4ca426f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewardId: reward_0
+  rewardName: Reward
+  iconImage: {fileID: 0}
+  bulbImage: {fileID: 0}
+  frameImage: {fileID: 0}
+  defaultSprite: {fileID: 0}
 --- !u!1 &945124553
 GameObject:
   m_ObjectHideFlags: 0
@@ -10091,6 +10186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1272716484}
+  - component: {fileID: 1272716485}
   m_Layer: 5
   m_Name: '[Group] - RewardR (1)'
   m_TagString: Untagged
@@ -10120,6 +10216,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1272716485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1272716483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d191f9c2d18e74da6dd00bf4ca426f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewardId: reward_0
+  rewardName: Reward
+  iconImage: {fileID: 0}
+  bulbImage: {fileID: 0}
+  frameImage: {fileID: 0}
+  defaultSprite: {fileID: 0}
 --- !u!1 &1342598101
 GameObject:
   m_ObjectHideFlags: 0
@@ -10129,6 +10243,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1342598102}
+  - component: {fileID: 1342598103}
   m_Layer: 5
   m_Name: '[Group] - RewardR (3)'
   m_TagString: Untagged
@@ -10158,6 +10273,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1342598103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342598101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d191f9c2d18e74da6dd00bf4ca426f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewardId: reward_0
+  rewardName: Reward
+  iconImage: {fileID: 0}
+  bulbImage: {fileID: 0}
+  frameImage: {fileID: 0}
+  defaultSprite: {fileID: 0}
 --- !u!1 &1344921877
 GameObject:
   m_ObjectHideFlags: 0
@@ -10618,6 +10751,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1601300284}
+  - component: {fileID: 1601300285}
   m_Layer: 5
   m_Name: '[Group] - RewardR (2)'
   m_TagString: Untagged
@@ -10647,6 +10781,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1601300285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1601300283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d191f9c2d18e74da6dd00bf4ca426f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewardId: reward_0
+  rewardName: Reward
+  iconImage: {fileID: 0}
+  bulbImage: {fileID: 0}
+  frameImage: {fileID: 0}
+  defaultSprite: {fileID: 0}
 --- !u!1 &1615369865
 GameObject:
   m_ObjectHideFlags: 0
@@ -11117,30 +11269,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slots:
-  - rewardName: Reward1
-    bulbImage: {fileID: 1421112387}
-    frameImage: {fileID: 276552525}
-  - rewardName: Reward2
-    bulbImage: {fileID: 597557363}
-    frameImage: {fileID: 1091209580}
-  - rewardName: Reward3
-    bulbImage: {fileID: 1420405908}
-    frameImage: {fileID: 1679605668}
-  - rewardName: Reward4
-    bulbImage: {fileID: 1050712524}
-    frameImage: {fileID: 802252588}
-  - rewardName: Reward5
-    bulbImage: {fileID: 1097342316}
-    frameImage: {fileID: 1841129936}
-  - rewardName: Reward6
-    bulbImage: {fileID: 1200020302}
-    frameImage: {fileID: 2066340363}
-  - rewardName: Reward7
-    bulbImage: {fileID: 954428364}
-    frameImage: {fileID: 2142048933}
-  - rewardName: Reward8
-    bulbImage: {fileID: 604064508}
-    frameImage: {fileID: 71228291}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  iconProvider: {fileID: 0}
   idleBulbColor: {r: 1, g: 1, b: 1, a: 1}
   runningBulbColor: {r: 1, g: 0.95, b: 0.3, a: 1}
   runningFrameColor: {r: 1, g: 0.9490196, b: 0.29803923, a: 1}
@@ -11155,6 +11292,7 @@ MonoBehaviour:
   resultPopupRoot: {fileID: 196023673}
   popupContent: {fileID: 1147214425}
   resultText: {fileID: 1090940999}
+  resultIcon: {fileID: 0}
   showPopupDelay: 1
   popupStartScale: 0.6
   popupOpenDuration: 0.4

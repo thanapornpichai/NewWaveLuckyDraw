@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -8,16 +6,11 @@ using DG.Tweening;
 
 public class LuckyDrawSpinner : MonoBehaviour
 {
-    [Serializable]
-    public class RewardSlot
-    {
-        public string rewardName;
-        public Image bulbImage;
-        public Image frameImage;
-    }
+    [Header("Slots (RewardSlotView Components)")]
+    [SerializeField] private RewardSlotView[] slots;
 
-    [Header("Slots")]
-    [SerializeField] private List<RewardSlot> slots = new List<RewardSlot>();
+    [Header("Optional: Icon Provider (Local Files)")]
+    [SerializeField] private RewardIconProvider_LocalFiles iconProvider;
 
     [Header("Colors")]
     [SerializeField] private Color idleBulbColor = Color.white;
@@ -35,9 +28,10 @@ public class LuckyDrawSpinner : MonoBehaviour
     [SerializeField] private int extraStepsMax = 3;
 
     [Header("Result Popup")]
-    [SerializeField] private GameObject resultPopupRoot; 
-    [SerializeField] private RectTransform popupContent;  
+    [SerializeField] private GameObject resultPopupRoot;
+    [SerializeField] private RectTransform popupContent;
     [SerializeField] private TMP_Text resultText;
+    [SerializeField] private Image resultIcon;
     [SerializeField] private float showPopupDelay = 1f;
 
     [Header("Popup Tween")]
@@ -47,7 +41,7 @@ public class LuckyDrawSpinner : MonoBehaviour
     [SerializeField] private Ease popupOpenEase = Ease.OutBack;
     [SerializeField] private Ease popupCloseEase = Ease.InBack;
 
-    [Header("UI Button")]
+    [Header("Spin Button")]
     [SerializeField] private Button spinButton;
 
     [Header("Spin Button Tween")]
@@ -66,40 +60,53 @@ public class LuckyDrawSpinner : MonoBehaviour
     private void Awake()
     {
         if (spinButton != null)
+        {
             spinButton.onClick.AddListener(Spin);
-
-        if (spinButton != null)
             spinButtonRect = spinButton.GetComponent<RectTransform>();
+        }
+
+        ApplyRewardIcons();
 
         ResetAllVisuals();
 
-        if (resultPopupRoot != null)
-            resultPopupRoot.SetActive(false);
+        if (resultPopupRoot != null) resultPopupRoot.SetActive(false);
 
         SetSpinButtonState(true);
+    }
+
+    public void ReloadRewardImages()
+    {
+        ApplyRewardIcons();
+    }
+
+    private void ApplyRewardIcons()
+    {
+        if (slots == null) return;
+
+        foreach (var s in slots)
+            if (s != null) s.ApplyDefaultIcon();
+
+        if (iconProvider != null)
+            iconProvider.ReloadAll(slots);
     }
 
     public void Spin()
     {
         if (isSpinning) return;
-
         if (resultPopupRoot != null && resultPopupRoot.activeSelf) return;
 
-        if (slots == null || slots.Count == 0)
+        if (slots == null || slots.Length == 0)
         {
             Debug.LogWarning("LuckyDrawSpinner: slots empty");
             return;
         }
 
         ForceHidePopup();
-
         SetSpinButtonState(false);
 
         isSpinning = true;
 
-        if (spinRoutine != null)
-            StopCoroutine(spinRoutine);
-
+        if (spinRoutine != null) StopCoroutine(spinRoutine);
         spinRoutine = StartCoroutine(SpinRoutine());
     }
 
@@ -107,28 +114,27 @@ public class LuckyDrawSpinner : MonoBehaviour
     {
         ResetAllVisuals();
 
-        int targetIndex = UnityEngine.Random.Range(0, slots.Count);
+        int targetIndex = Random.Range(0, slots.Length);
 
-        int cycles = UnityEngine.Random.Range(minCycles, maxCycles + 1);
-        int extraSteps = UnityEngine.Random.Range(extraStepsMin, extraStepsMax + 1);
+        int cycles = Random.Range(minCycles, maxCycles + 1);
+        int extraSteps = Random.Range(extraStepsMin, extraStepsMax + 1);
 
         if (currentIndex < 0)
-            currentIndex = UnityEngine.Random.Range(0, slots.Count);
+            currentIndex = Random.Range(0, slots.Length);
 
-        int offsetToTarget = GetForwardDistance(currentIndex, targetIndex, slots.Count);
-        int totalSteps = (cycles * slots.Count) + offsetToTarget + extraSteps;
+        int offsetToTarget = GetForwardDistance(currentIndex, targetIndex, slots.Length);
+        int totalSteps = (cycles * slots.Length) + offsetToTarget + extraSteps;
 
         for (int step = 1; step <= totalSteps; step++)
         {
-            int jump = UnityEngine.Random.Range(1, 4);
-            int nextIndex = (currentIndex + jump) % slots.Count;
+            int jump = Random.Range(1, 4);
+            int nextIndex = (currentIndex + jump) % slots.Length;
 
             HighlightRunning(nextIndex);
             currentIndex = nextIndex;
 
             float t = step / (float)totalSteps;
             float delay = Mathf.Lerp(startStepDelay, endStepDelay, EaseOutQuad(t));
-
             yield return new WaitForSeconds(delay);
         }
 
@@ -136,7 +142,7 @@ public class LuckyDrawSpinner : MonoBehaviour
         HighlightWin(currentIndex);
 
         yield return new WaitForSeconds(showPopupDelay);
-        ShowResultPopup(slots[currentIndex].rewardName);
+        ShowResultPopup(currentIndex);
 
         isSpinning = false;
         spinRoutine = null;
@@ -144,59 +150,50 @@ public class LuckyDrawSpinner : MonoBehaviour
 
     private void ResetAllVisuals()
     {
-        for (int i = 0; i < slots.Count; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
-            if (slots[i].bulbImage != null)
-                slots[i].bulbImage.color = idleBulbColor;
-
-            if (slots[i].frameImage != null)
-                slots[i].frameImage.gameObject.SetActive(false);
+            if (slots[i] == null) continue;
+            slots[i].ResetVisual(idleBulbColor);
         }
     }
 
     private void HighlightRunning(int index)
     {
-        for (int i = 0; i < slots.Count; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
-            if (slots[i].bulbImage != null)
-                slots[i].bulbImage.color = idleBulbColor;
-
-            if (slots[i].frameImage != null)
-                slots[i].frameImage.gameObject.SetActive(false);
+            if (slots[i] == null) continue;
+            slots[i].ResetVisual(idleBulbColor);
         }
-
-        if (slots[index].bulbImage != null)
-            slots[index].bulbImage.color = runningBulbColor;
-
-        if (slots[index].frameImage != null)
-        {
-            slots[index].frameImage.gameObject.SetActive(true);
-            slots[index].frameImage.color = runningFrameColor;
-        }
+        slots[index].SetRunning(runningBulbColor, runningFrameColor);
     }
 
     private void HighlightWin(int index)
     {
         ResetAllVisuals();
-
-        if (slots[index].bulbImage != null)
-            slots[index].bulbImage.color = winBulbColor;
-
-        if (slots[index].frameImage != null)
-        {
-            slots[index].frameImage.gameObject.SetActive(true);
-            slots[index].frameImage.color = winFrameColor;
-        }
+        slots[index].SetWin(winBulbColor, winFrameColor);
     }
 
-    private void ShowResultPopup(string rewardName)
+    private void ShowResultPopup(int index)
     {
-        if (resultText != null)
-            resultText.text = rewardName;
+        if (index < 0 || index >= slots.Length)
+        {
+            SetSpinButtonState(true);
+            return;
+        }
+
+        var slot = slots[index];
+
+        if (resultText != null) resultText.text = slot.rewardName;
+
+        if (resultIcon != null)
+        {
+            var spr = slot.iconImage != null ? slot.iconImage.sprite : slot.defaultSprite;
+            resultIcon.sprite = spr;
+            resultIcon.preserveAspect = true;
+        }
 
         if (resultPopupRoot == null || popupContent == null)
         {
-            Debug.LogWarning("LuckyDrawSpinner: resultPopupRoot or popupContent not setting");
             SetSpinButtonState(true);
             return;
         }
@@ -218,20 +215,17 @@ public class LuckyDrawSpinner : MonoBehaviour
         if (resultPopupRoot == null || popupContent == null)
         {
             if (resultPopupRoot != null) resultPopupRoot.SetActive(false);
-
             SetSpinButtonState(true);
             return;
         }
 
         popupTween?.Kill();
-
         popupTween = popupContent
             .DOScale(popupStartScale, popupCloseDuration)
             .SetEase(popupCloseEase)
             .OnComplete(() =>
             {
                 resultPopupRoot.SetActive(false);
-
                 SetSpinButtonState(true);
             });
     }
@@ -239,23 +233,16 @@ public class LuckyDrawSpinner : MonoBehaviour
     private void ForceHidePopup()
     {
         popupTween?.Kill();
-
-        if (resultPopupRoot != null)
-            resultPopupRoot.SetActive(false);
-
-        if (popupContent != null)
-            popupContent.localScale = Vector3.one;
+        if (resultPopupRoot != null) resultPopupRoot.SetActive(false);
+        if (popupContent != null) popupContent.localScale = Vector3.one;
     }
 
     private void SetSpinButtonState(bool enable)
     {
-        if (spinButton != null)
-            spinButton.interactable = enable;
+        if (spinButton != null) spinButton.interactable = enable;
 
-        if (enable)
-            StartSpinButtonPulse();
-        else
-            StopSpinButtonPulse();
+        if (enable) StartSpinButtonPulse();
+        else StopSpinButtonPulse();
     }
 
     private void StartSpinButtonPulse()
@@ -263,7 +250,6 @@ public class LuckyDrawSpinner : MonoBehaviour
         if (spinButtonRect == null) return;
 
         spinButtonTween?.Kill();
-
         spinButtonRect.localScale = Vector3.one;
 
         spinButtonTween = spinButtonRect
