@@ -1,0 +1,5 @@
+D:/NewWaveLuckyDraw/NewWaveLuckyDraw/.utmp/Debug/6x5o1i21/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/NewWaveLuckyDraw/NewWaveLuckyDraw/.utmp/Debug/6x5o1i21/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+D:/NewWaveLuckyDraw/NewWaveLuckyDraw/.utmp/Debug/6x5o1i21/armeabi-v7a/GameActivity/CMakeFiles/game.dir
+D:/NewWaveLuckyDraw/NewWaveLuckyDraw/.utmp/Debug/6x5o1i21/armeabi-v7a/GameActivity/CMakeFiles/edit_cache.dir
+D:/NewWaveLuckyDraw/NewWaveLuckyDraw/.utmp/Debug/6x5o1i21/armeabi-v7a/GameActivity/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,10 @@
+# ninja log v5
+12	766	7896382446170265	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	2b607b3c338b40c7
+16	780	7896382446317530	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	c209a2f1a7d7443a
+5	785	7896382446364965	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	8516124f9d223fc5
+34	801	7896382446532669	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	69a268ac4145a916
+8	834	7896382446850708	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	907a6cf846b72ccd
+42	955	7896382448076522	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	d2264fe79697123d
+20	969	7896382448198769	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	efd0b7f012763175
+1	1038	7896382448855121	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	a25af830ba8b1df7
+1038	1099	7896382449525875	D:/NewWaveLuckyDraw/NewWaveLuckyDraw/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/276p4i3w/obj/arm64-v8a/libgame.so	29b01f1f6207c02
