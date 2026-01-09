@@ -87,7 +87,7 @@ public class LuckyDrawSpinner : MonoBehaviour
 
     public void ReloadRewardImages()
     {
-        if (iconProvider != null)
+        if (iconProvider != null && slots != null)
             iconProvider.ReloadAll(slots);
     }
 
@@ -95,7 +95,6 @@ public class LuckyDrawSpinner : MonoBehaviour
     {
         if (isSpinning) return;
         if (resultPopupRoot != null && resultPopupRoot.activeSelf) return;
-
         if (slots == null || slots.Length == 0) return;
 
         isSpinning = true;
@@ -153,10 +152,7 @@ public class LuckyDrawSpinner : MonoBehaviour
                 total += Mathf.Max(0, s.weight);
 
         if (total <= 0)
-        {
-            Debug.LogWarning("All weights are 0. Fallback to uniform random.");
             return Random.Range(0, slots.Length);
-        }
 
         int rand = Random.Range(0, total);
         int sum = 0;

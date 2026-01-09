@@ -14,13 +14,16 @@ public class RewardIconChangeButton : MonoBehaviour
     [SerializeField] private string rewardId;
 
     [Header("Optional UI")]
-    [SerializeField] private Button button;
+    [SerializeField] private Button pickButton;  
+    [SerializeField] private Button resetButton;  
     [SerializeField] private bool autoDisableWhilePicking = true;
 
     private void Awake()
     {
-        if (button == null) button = GetComponent<Button>();
-        if (button != null) button.onClick.AddListener(OnClickPick);
+        if (pickButton == null) pickButton = GetComponent<Button>();
+        if (pickButton != null) pickButton.onClick.AddListener(OnClickPick);
+
+        if (resetButton != null) resetButton.onClick.AddListener(ClearOverride);
     }
 
     public void OnClickPick()
@@ -37,13 +40,13 @@ public class RewardIconChangeButton : MonoBehaviour
             return;
         }
 
-        if (autoDisableWhilePicking && button != null)
-            button.interactable = false;
+        if (autoDisableWhilePicking && pickButton != null)
+            pickButton.interactable = false;
 
         NativeFilePicker.PickFile((path) =>
         {
-            if (autoDisableWhilePicking && button != null)
-                button.interactable = true;
+            if (autoDisableWhilePicking && pickButton != null)
+                pickButton.interactable = true;
 
             if (string.IsNullOrEmpty(path))
             {
@@ -52,26 +55,25 @@ public class RewardIconChangeButton : MonoBehaviour
             }
 
             Debug.Log("Picked file path/uri: " + path);
-            StartCoroutine(CopyToSandboxAndApply(path));
+            StartCoroutine(CopyToSandboxAndRefresh(path));
 
         }, "image/*");
     }
 
-    private IEnumerator CopyToSandboxAndApply(string pickedPathOrUri)
+    private IEnumerator CopyToSandboxAndRefresh(string pickedPathOrUri)
     {
-        if (iconProvider == null) yield break;
-
         iconProvider.EnsureFolder();
 
         string ext = Path.GetExtension(pickedPathOrUri).ToLowerInvariant();
         if (ext != ".png" && ext != ".jpg" && ext != ".jpeg")
             ext = ".png";
 
-        string destPath = Path.Combine(
-            Application.persistentDataPath,
-            "rewards",
-            rewardId + ext
-        );
+        string folder = Path.Combine(Application.persistentDataPath, "rewards");
+        string destPath = Path.Combine(folder, rewardId + ext);
+
+        SafeDelete(Path.Combine(folder, rewardId + ".png"));
+        SafeDelete(Path.Combine(folder, rewardId + ".jpg"));
+        SafeDelete(Path.Combine(folder, rewardId + ".jpeg"));
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         if (pickedPathOrUri.StartsWith("content://"))
@@ -98,15 +100,7 @@ public class RewardIconChangeButton : MonoBehaviour
                     yield break;
                 }
 
-                try
-                {
-                    File.WriteAllBytes(destPath, bytes);
-                }
-                catch (System.Exception e)
-                {
-                    Debug.LogWarning("WriteAllBytes failed: " + e.Message);
-                    yield break;
-                }
+                File.WriteAllBytes(destPath, bytes);
             }
         }
         else
@@ -116,16 +110,7 @@ public class RewardIconChangeButton : MonoBehaviour
                 Debug.LogWarning("Picked file not found: " + pickedPathOrUri);
                 yield break;
             }
-
-            try
-            {
-                File.Copy(pickedPathOrUri, destPath, true);
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogWarning("File.Copy failed: " + e.Message);
-                yield break;
-            }
+            File.Copy(pickedPathOrUri, destPath, true);
         }
 #else
         if (!File.Exists(pickedPathOrUri))
@@ -133,38 +118,34 @@ public class RewardIconChangeButton : MonoBehaviour
             Debug.LogWarning("Picked file not found: " + pickedPathOrUri);
             yield break;
         }
-
-        try
-        {
-            File.Copy(pickedPathOrUri, destPath, true);
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogWarning("File.Copy failed: " + e.Message);
-            yield break;
-        }
+        File.Copy(pickedPathOrUri, destPath, true);
 #endif
 
-        bool ok = iconProvider.SetOverrideFromFile(rewardId, destPath);
-        if (!ok)
-        {
-            Debug.LogWarning("SetOverrideFromFile failed");
-            yield break;
-        }
+        Debug.Log($"Override saved: {destPath}");
 
         if (spinnerToRefresh != null)
             spinnerToRefresh.ReloadRewardImages();
-
-        Debug.Log($"Reward icon updated for id: {rewardId}");
     }
 
     public void ClearOverride()
     {
-        if (iconProvider == null || string.IsNullOrEmpty(rewardId)) return;
+        if (iconProvider == null || string.IsNullOrEmpty(rewardId))
+            return;
 
         iconProvider.ClearOverride(rewardId);
 
         if (spinnerToRefresh != null)
             spinnerToRefresh.ReloadRewardImages();
+
+        Debug.Log($"Override cleared. Back to default for id: {rewardId}");
+    }
+
+    private void SafeDelete(string path)
+    {
+        try
+        {
+            if (File.Exists(path)) File.Delete(path);
+        }
+        catch { }
     }
 }

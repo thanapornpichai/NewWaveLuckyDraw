@@ -1,10 +1,19 @@
 # ninja log v5
 16	591	7896434542508228	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	72e2fd49ba643b23
 12	600	7896434542598820	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	fedf266437218c7a
-4	602	7896434542649048	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	a6a5f729598400a1
-0	631	7896434542921493	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	565ef47f0e90b0ed
-29	632	7896434542946629	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	89eaae65a1bef7bc
 24	646	7896434543072181	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	99847c7b52171a78
+4	602	7896434542649048	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	a6a5f729598400a1
+704	777	7896434544378450	D:/NewWaveLuckyDraw/NewWaveLuckyDraw/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/6x5o1i21/obj/armeabi-v7a/libgame.so	c4db47cdaec05fb2
+29	632	7896434542946629	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	89eaae65a1bef7bc
+0	631	7896434542921493	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	565ef47f0e90b0ed
 20	672	7896434543293314	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	3d0a713082cf2e6c
 8	704	7896434543623097	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	4cce0fe440fc6e21
-704	777	7896434544378450	D:/NewWaveLuckyDraw/NewWaveLuckyDraw/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/6x5o1i21/obj/armeabi-v7a/libgame.so	c4db47cdaec05fb2
+22	537	7896558939127013	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	72e2fd49ba643b23
+7	538	7896558939127013	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	fedf266437218c7a
+16	539	7896558939150310	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	a6a5f729598400a1
+19	544	7896558939208242	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	89eaae65a1bef7bc
+13	548	7896558939260501	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	565ef47f0e90b0ed
+30	587	7896558939628027	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	99847c7b52171a78
+26	600	7896558939748963	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	3d0a713082cf2e6c
+3	629	7896558940019825	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	4cce0fe440fc6e21
+629	755	7896558941291982	D:/NewWaveLuckyDraw/NewWaveLuckyDraw/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/6x5o1i21/obj/armeabi-v7a/libgame.so	c4db47cdaec05fb2
