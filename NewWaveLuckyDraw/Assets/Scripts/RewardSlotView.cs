@@ -1,58 +1,56 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class RewardSlotView : MonoBehaviour
 {
-    [Header("Data")]
-    public string rewardId = "reward_0";
-    public string rewardName = "Reward";
+    [Header("Reward Data")]
+    public string rewardName;
+
+    [Min(0)]
+    public int weight = 10;  
 
     [Header("UI")]
-    public Image iconImage;
     public Image bulbImage;
     public Image frameImage;
-
-    [Header("Default Icon")]
+    public Image iconImage;
     public Sprite defaultSprite;
 
     public void ApplyDefaultIcon()
     {
-        if (iconImage == null) return;
-        iconImage.sprite = defaultSprite;
-        iconImage.preserveAspect = true;
+        if (iconImage != null && defaultSprite != null)
+            iconImage.sprite = defaultSprite;
     }
 
-    public void SetIcon(Sprite sprite)
+    public void ResetVisual(Color idleColor)
     {
-        if (iconImage == null) return;
-        iconImage.sprite = sprite != null ? sprite : defaultSprite;
-        iconImage.preserveAspect = true;
+        if (bulbImage != null)
+            bulbImage.color = idleColor;
+
+        if (frameImage != null)
+            frameImage.gameObject.SetActive(false);
     }
 
-    public void ResetVisual(Color idleBulbColor)
+    public void SetRunning(Color bulbColor, Color frameColor)
     {
-        if (bulbImage != null) bulbImage.color = idleBulbColor;
-        if (frameImage != null) frameImage.gameObject.SetActive(false);
-    }
+        if (bulbImage != null)
+            bulbImage.color = bulbColor;
 
-    public void SetRunning(Color runningBulbColor, Color runningFrameColor)
-    {
-        if (bulbImage != null) bulbImage.color = runningBulbColor;
         if (frameImage != null)
         {
             frameImage.gameObject.SetActive(true);
-            frameImage.color = runningFrameColor;
+            frameImage.color = frameColor;
         }
     }
 
-    public void SetWin(Color winBulbColor, Color winFrameColor)
+    public void SetWin(Color bulbColor, Color frameColor)
     {
-        if (bulbImage != null) bulbImage.color = winBulbColor;
+        if (bulbImage != null)
+            bulbImage.color = bulbColor;
+
         if (frameImage != null)
         {
             frameImage.gameObject.SetActive(true);
-            frameImage.color = winFrameColor;
+            frameImage.color = frameColor;
         }
     }
 }

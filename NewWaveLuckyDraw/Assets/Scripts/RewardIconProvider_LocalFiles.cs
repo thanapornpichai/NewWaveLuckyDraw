@@ -27,7 +27,7 @@ public class RewardIconProvider_LocalFiles : MonoBehaviour
 
         EnsureFolder();
 
-        string path = FindExistingRewardImagePath(slot.rewardId);
+        /*string path = FindExistingRewardImagePath(slot.rewardId);
         if (string.IsNullOrEmpty(path))
         {
             slot.ApplyDefaultIcon();
@@ -35,7 +35,7 @@ public class RewardIconProvider_LocalFiles : MonoBehaviour
         }
 
         var spr = LoadSpriteFromFile(path);
-        slot.SetIcon(spr);
+        slot.SetIcon(spr);*/
     }
 
     public void ReloadAll(RewardSlotView[] slots)
