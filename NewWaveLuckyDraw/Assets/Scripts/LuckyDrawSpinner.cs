@@ -9,6 +9,9 @@ public class LuckyDrawSpinner : MonoBehaviour
     [Header("Slots")]
     [SerializeField] private RewardSlotView[] slots;
 
+    [Header("Optional: Icon Provider (Local Files)")]
+    [SerializeField] private RewardIconProvider_LocalFiles iconProvider;
+
     [Header("Colors")]
     [SerializeField] private Color idleBulbColor = Color.white;
     [SerializeField] private Color runningBulbColor = new Color(1f, 0.95f, 0.3f, 1f);
@@ -75,15 +78,25 @@ public class LuckyDrawSpinner : MonoBehaviour
 
         popupLoopSource.loop = true;
 
+        ReloadRewardImages();
         ResetAllVisuals();
+
         if (resultPopupRoot != null) resultPopupRoot.SetActive(false);
         SetSpinButtonState(true);
+    }
+
+    public void ReloadRewardImages()
+    {
+        if (iconProvider != null)
+            iconProvider.ReloadAll(slots);
     }
 
     public void Spin()
     {
         if (isSpinning) return;
         if (resultPopupRoot != null && resultPopupRoot.activeSelf) return;
+
+        if (slots == null || slots.Length == 0) return;
 
         isSpinning = true;
         SetSpinButtonState(false);
@@ -139,6 +152,12 @@ public class LuckyDrawSpinner : MonoBehaviour
             if (s != null)
                 total += Mathf.Max(0, s.weight);
 
+        if (total <= 0)
+        {
+            Debug.LogWarning("All weights are 0. Fallback to uniform random.");
+            return Random.Range(0, slots.Length);
+        }
+
         int rand = Random.Range(0, total);
         int sum = 0;
 
@@ -160,7 +179,10 @@ public class LuckyDrawSpinner : MonoBehaviour
             resultText.text = slot.rewardName;
 
         if (resultIcon != null && slot.iconImage != null)
+        {
             resultIcon.sprite = slot.iconImage.sprite;
+            resultIcon.preserveAspect = true;
+        }
 
         if (popupLoopSfx != null)
         {
@@ -171,6 +193,7 @@ public class LuckyDrawSpinner : MonoBehaviour
         resultPopupRoot.SetActive(true);
         popupContent.localScale = Vector3.one * popupStartScale;
 
+        popupTween?.Kill();
         popupTween = popupContent
             .DOScale(1f, popupOpenDuration)
             .SetEase(popupOpenEase);
@@ -178,8 +201,9 @@ public class LuckyDrawSpinner : MonoBehaviour
 
     public void ClosePopup()
     {
-        popupLoopSource.Stop();
+        if (popupLoopSource != null) popupLoopSource.Stop();
 
+        popupTween?.Kill();
         popupTween = popupContent
             .DOScale(popupStartScale, popupCloseDuration)
             .SetEase(popupCloseEase)
@@ -214,8 +238,11 @@ public class LuckyDrawSpinner : MonoBehaviour
         if (spinButton != null)
             spinButton.interactable = enable;
 
+        if (spinButtonRect == null) return;
+
         if (enable)
         {
+            spinButtonTween?.Kill();
             spinButtonTween = spinButtonRect
                 .DOScale(pulseScale, pulseDuration)
                 .SetLoops(-1, LoopType.Yoyo);
