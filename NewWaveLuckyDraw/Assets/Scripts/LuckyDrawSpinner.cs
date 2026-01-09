@@ -48,6 +48,16 @@ public class LuckyDrawSpinner : MonoBehaviour
     [SerializeField] private float pulseScale = 1.1f;
     [SerializeField] private float pulseDuration = 0.6f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource sfxSource;       
+    [SerializeField] private AudioSource popupLoopSource;  
+    [SerializeField] private AudioClip spinClickSfx;
+    [SerializeField] private AudioClip tickStepSfx;
+    [SerializeField] private AudioClip popupLoopSfx;        
+    [SerializeField, Range(0f, 1f)] private float spinClickVolume = 1f;
+    [SerializeField, Range(0f, 1f)] private float tickStepVolume = 1f;
+    [SerializeField, Range(0f, 1f)] private float popupLoopVolume = 1f;
+
     private bool isSpinning;
     private int currentIndex = -1;
     private Coroutine spinRoutine;
@@ -65,11 +75,23 @@ public class LuckyDrawSpinner : MonoBehaviour
             spinButtonRect = spinButton.GetComponent<RectTransform>();
         }
 
-        ApplyRewardIcons();
+        if (sfxSource == null)
+        {
+            sfxSource = GetComponent<AudioSource>();
+            if (sfxSource == null) sfxSource = gameObject.AddComponent<AudioSource>();
+        }
 
+        if (popupLoopSource == null)
+            popupLoopSource = gameObject.AddComponent<AudioSource>();
+
+        popupLoopSource.loop = true;
+        popupLoopSource.playOnAwake = false;
+
+        ApplyRewardIcons();
         ResetAllVisuals();
 
-        if (resultPopupRoot != null) resultPopupRoot.SetActive(false);
+        if (resultPopupRoot != null)
+            resultPopupRoot.SetActive(false);
 
         SetSpinButtonState(true);
     }
@@ -101,6 +123,8 @@ public class LuckyDrawSpinner : MonoBehaviour
             return;
         }
 
+        PlayOneShot(spinClickSfx, spinClickVolume);
+
         ForceHidePopup();
         SetSpinButtonState(false);
 
@@ -114,24 +138,27 @@ public class LuckyDrawSpinner : MonoBehaviour
     {
         ResetAllVisuals();
 
-        int targetIndex = Random.Range(0, slots.Length);
+        int count = slots.Length;
+        int targetIndex = Random.Range(0, count);
 
         int cycles = Random.Range(minCycles, maxCycles + 1);
         int extraSteps = Random.Range(extraStepsMin, extraStepsMax + 1);
 
         if (currentIndex < 0)
-            currentIndex = Random.Range(0, slots.Length);
+            currentIndex = Random.Range(0, count);
 
-        int offsetToTarget = GetForwardDistance(currentIndex, targetIndex, slots.Length);
-        int totalSteps = (cycles * slots.Length) + offsetToTarget + extraSteps;
+        int offsetToTarget = GetForwardDistance(currentIndex, targetIndex, count);
+        int totalSteps = (cycles * count) + offsetToTarget + extraSteps;
 
         for (int step = 1; step <= totalSteps; step++)
         {
             int jump = Random.Range(1, 4);
-            int nextIndex = (currentIndex + jump) % slots.Length;
+            int nextIndex = (currentIndex + jump) % count;
 
             HighlightRunning(nextIndex);
             currentIndex = nextIndex;
+
+            PlayOneShot(tickStepSfx, tickStepVolume);
 
             float t = step / (float)totalSteps;
             float delay = Mathf.Lerp(startStepDelay, endStepDelay, EaseOutQuad(t));
@@ -150,6 +177,8 @@ public class LuckyDrawSpinner : MonoBehaviour
 
     private void ResetAllVisuals()
     {
+        if (slots == null) return;
+
         for (int i = 0; i < slots.Length; i++)
         {
             if (slots[i] == null) continue;
@@ -159,31 +188,41 @@ public class LuckyDrawSpinner : MonoBehaviour
 
     private void HighlightRunning(int index)
     {
-        for (int i = 0; i < slots.Length; i++)
-        {
-            if (slots[i] == null) continue;
-            slots[i].ResetVisual(idleBulbColor);
-        }
+        ResetAllVisuals();
+
+        if (slots == null || index < 0 || index >= slots.Length) return;
+        if (slots[index] == null) return;
+
         slots[index].SetRunning(runningBulbColor, runningFrameColor);
     }
 
     private void HighlightWin(int index)
     {
         ResetAllVisuals();
+
+        if (slots == null || index < 0 || index >= slots.Length) return;
+        if (slots[index] == null) return;
+
         slots[index].SetWin(winBulbColor, winFrameColor);
     }
 
     private void ShowResultPopup(int index)
     {
-        if (index < 0 || index >= slots.Length)
+        if (slots == null || index < 0 || index >= slots.Length)
         {
             SetSpinButtonState(true);
             return;
         }
 
         var slot = slots[index];
+        if (slot == null)
+        {
+            SetSpinButtonState(true);
+            return;
+        }
 
-        if (resultText != null) resultText.text = slot.rewardName;
+        if (resultText != null)
+            resultText.text = slot.rewardName;
 
         if (resultIcon != null)
         {
@@ -208,10 +247,14 @@ public class LuckyDrawSpinner : MonoBehaviour
         popupTween = popupContent
             .DOScale(1f, popupOpenDuration)
             .SetEase(popupOpenEase);
+
+        PlayPopupLoop();
     }
 
     public void ClosePopup()
     {
+        StopPopupLoop();
+
         if (resultPopupRoot == null || popupContent == null)
         {
             if (resultPopupRoot != null) resultPopupRoot.SetActive(false);
@@ -233,13 +276,16 @@ public class LuckyDrawSpinner : MonoBehaviour
     private void ForceHidePopup()
     {
         popupTween?.Kill();
+        StopPopupLoop();
+
         if (resultPopupRoot != null) resultPopupRoot.SetActive(false);
         if (popupContent != null) popupContent.localScale = Vector3.one;
     }
 
     private void SetSpinButtonState(bool enable)
     {
-        if (spinButton != null) spinButton.interactable = enable;
+        if (spinButton != null)
+            spinButton.interactable = enable;
 
         if (enable) StartSpinButtonPulse();
         else StopSpinButtonPulse();
@@ -277,5 +323,32 @@ public class LuckyDrawSpinner : MonoBehaviour
     private float EaseOutQuad(float t)
     {
         return 1f - (1f - t) * (1f - t);
+    }
+
+
+    private void PlayOneShot(AudioClip clip, float volume)
+    {
+        if (sfxSource == null || clip == null) return;
+        sfxSource.PlayOneShot(clip, volume);
+    }
+
+    private void PlayPopupLoop()
+    {
+        if (popupLoopSource == null || popupLoopSfx == null) return;
+
+        if (popupLoopSource.isPlaying && popupLoopSource.clip == popupLoopSfx) return;
+
+        popupLoopSource.Stop();
+        popupLoopSource.clip = popupLoopSfx;
+        popupLoopSource.volume = popupLoopVolume;
+        popupLoopSource.loop = true;
+        popupLoopSource.Play();
+    }
+
+    private void StopPopupLoop()
+    {
+        if (popupLoopSource == null) return;
+        if (popupLoopSource.isPlaying) popupLoopSource.Stop();
+        popupLoopSource.clip = null;
     }
 }
