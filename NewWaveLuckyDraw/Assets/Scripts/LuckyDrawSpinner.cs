@@ -48,6 +48,10 @@ public class LuckyDrawSpinner : MonoBehaviour
     [SerializeField] private float pulseScale = 1.1f;
     [SerializeField] private float pulseDuration = 0.6f;
 
+    [Header("Spin Button Scale")]
+    [SerializeField] private float spinButtonBaseScale = 0.48f;
+    [SerializeField] private float spinButtonPulseScale = 0.6f;
+
     [Header("Audio")]
     [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioSource popupLoopSource;
@@ -68,6 +72,9 @@ public class LuckyDrawSpinner : MonoBehaviour
         {
             spinButton.onClick.AddListener(Spin);
             spinButtonRect = spinButton.GetComponent<RectTransform>();
+            if (spinButtonRect != null)
+                spinButtonRect.localScale = Vector3.one * spinButtonBaseScale;
+
         }
 
         if (sfxSource == null)
@@ -236,19 +243,23 @@ public class LuckyDrawSpinner : MonoBehaviour
 
         if (spinButtonRect == null) return;
 
+        spinButtonTween?.Kill();
+
         if (enable)
         {
-            spinButtonTween?.Kill();
+            spinButtonRect.localScale = Vector3.one * spinButtonBaseScale;
+
             spinButtonTween = spinButtonRect
-                .DOScale(pulseScale, pulseDuration)
+                .DOScale(spinButtonPulseScale, pulseDuration)
+                .SetEase(Ease.InOutSine)
                 .SetLoops(-1, LoopType.Yoyo);
         }
         else
         {
-            spinButtonTween?.Kill();
-            spinButtonRect.localScale = Vector3.one;
+            spinButtonRect.localScale = Vector3.one * spinButtonBaseScale;
         }
     }
+
 
     private int GetForwardDistance(int from, int to, int count)
     {

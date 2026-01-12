@@ -29,6 +29,10 @@ public class RewardSlotView : MonoBehaviour
 
     public Sprite bulbWinSprite;
 
+    [Header("Per Slot Colors")]
+    public Color runningFrameColor = Color.red;
+    public Color winFrameColor = Color.green;
+
     public void ApplyDefaultIcon()
     {
         if (iconImage == null) return;
@@ -68,7 +72,7 @@ public class RewardSlotView : MonoBehaviour
             frameImage.gameObject.SetActive(false);
     }
 
-    public void SetRunning(Color runningBulbColor, Color runningFrameColor)
+    public void SetRunning(Color runningBulbColor, Color fallbackRunningFrameColor)
     {
         if (bulbImage != null)
         {
@@ -79,11 +83,13 @@ public class RewardSlotView : MonoBehaviour
         if (frameImage != null)
         {
             frameImage.gameObject.SetActive(true);
-            frameImage.color = runningFrameColor;
+
+            Color c = runningFrameColor.a > 0f ? runningFrameColor : fallbackRunningFrameColor;
+            frameImage.color = c;
         }
     }
 
-    public void SetWin(Color winBulbColor, Color winFrameColor)
+    public void SetWin(Color winBulbColor, Color fallbackWinFrameColor)
     {
         if (bulbImage != null)
         {
@@ -96,7 +102,10 @@ public class RewardSlotView : MonoBehaviour
         if (frameImage != null)
         {
             frameImage.gameObject.SetActive(true);
-            frameImage.color = winFrameColor;
+
+            Color c = winFrameColor.a > 0f ? winFrameColor : fallbackWinFrameColor;
+            frameImage.color = c;
         }
     }
+
 }
