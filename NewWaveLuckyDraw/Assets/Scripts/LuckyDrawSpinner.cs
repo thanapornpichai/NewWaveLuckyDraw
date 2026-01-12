@@ -6,8 +6,8 @@ using DG.Tweening;
 
 public class LuckyDrawSpinner : MonoBehaviour
 {
-    [Header("Slots")]
-    [SerializeField] private RewardSlotView[] slots;
+    [Header("Slots (from Registry)")]
+    [SerializeField] private RewardSlotsRegistry slotsRegistry;
 
     [Header("Optional: Icon Provider (Local Files)")]
     [SerializeField] private RewardIconProvider_LocalFiles iconProvider;
@@ -74,7 +74,6 @@ public class LuckyDrawSpinner : MonoBehaviour
             spinButtonRect = spinButton.GetComponent<RectTransform>();
             if (spinButtonRect != null)
                 spinButtonRect.localScale = Vector3.one * spinButtonBaseScale;
-
         }
 
         if (sfxSource == null)
@@ -85,6 +84,20 @@ public class LuckyDrawSpinner : MonoBehaviour
 
         popupLoopSource.loop = true;
 
+        if (slotsRegistry != null)
+            slotsRegistry.OnSlotsChanged += HandleSlotsChanged;
+    }
+
+    private void OnDestroy()
+    {
+        if (slotsRegistry != null)
+            slotsRegistry.OnSlotsChanged -= HandleSlotsChanged;
+    }
+
+    private void Start()
+    {
+        slotsRegistry?.RefreshSlots();
+
         ReloadRewardImages();
         ResetAllVisuals();
 
@@ -92,17 +105,48 @@ public class LuckyDrawSpinner : MonoBehaviour
         SetSpinButtonState(true);
     }
 
+    private void HandleSlotsChanged()
+    {
+        int count = SlotCount;
+        if (count <= 0) currentIndex = -1;
+        else currentIndex = Mathf.Clamp(currentIndex, 0, count - 1);
+
+        ReloadRewardImages();
+        ResetAllVisuals();
+        RefreshAllSlotTexts();
+    }
+
+    private int SlotCount => (slotsRegistry != null && slotsRegistry.Slots != null) ? slotsRegistry.Slots.Count : 0;
+
+    private RewardSlotView GetSlot(int index)
+    {
+        if (slotsRegistry == null) return null;
+        return slotsRegistry.GetSlot(index);
+    }
+
+    private RewardSlotView[] GetSlotsArray()
+    {
+        if (slotsRegistry == null || slotsRegistry.Slots == null) return null;
+        var list = slotsRegistry.Slots;
+        var arr = new RewardSlotView[list.Count];
+        for (int i = 0; i < arr.Length; i++) arr[i] = list[i];
+        return arr;
+    }
+
     public void ReloadRewardImages()
     {
-        if (iconProvider != null && slots != null)
-            iconProvider.ReloadAll(slots);
+        if (iconProvider == null) return;
+
+        var arr = GetSlotsArray();
+        if (arr != null)
+            iconProvider.ReloadAll(arr);
     }
 
     public void Spin()
     {
         if (isSpinning) return;
         if (resultPopupRoot != null && resultPopupRoot.activeSelf) return;
-        if (slots == null || slots.Length == 0) return;
+        if (SlotCount <= 0) return;
 
         isSpinning = true;
         SetSpinButtonState(false);
@@ -117,8 +161,14 @@ public class LuckyDrawSpinner : MonoBehaviour
     {
         ResetAllVisuals();
 
+        int count = SlotCount;
+        if (count <= 0)
+        {
+            isSpinning = false;
+            yield break;
+        }
+
         int targetIndex = GetWeightedRandomIndex();
-        int count = slots.Length;
 
         if (currentIndex < 0)
             currentIndex = Random.Range(0, count);
@@ -153,21 +203,29 @@ public class LuckyDrawSpinner : MonoBehaviour
 
     private int GetWeightedRandomIndex()
     {
+        int count = SlotCount;
+        if (count <= 0) return 0;
+
         int total = 0;
-        foreach (var s in slots)
+        for (int i = 0; i < count; i++)
+        {
+            var s = GetSlot(i);
             if (s != null)
                 total += Mathf.Max(0, s.weight);
+        }
 
         if (total <= 0)
-            return Random.Range(0, slots.Length);
+            return Random.Range(0, count);
 
         int rand = Random.Range(0, total);
         int sum = 0;
 
-        for (int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < count; i++)
         {
-            if (slots[i] == null) continue;
-            sum += Mathf.Max(0, slots[i].weight);
+            var s = GetSlot(i);
+            if (s == null) continue;
+
+            sum += Mathf.Max(0, s.weight);
             if (rand < sum) return i;
         }
 
@@ -176,7 +234,8 @@ public class LuckyDrawSpinner : MonoBehaviour
 
     private void ShowResultPopup(int index)
     {
-        var slot = slots[index];
+        var slot = GetSlot(index);
+        if (slot == null) return;
 
         if (resultText != null)
             resultText.text = slot.rewardName;
@@ -193,18 +252,29 @@ public class LuckyDrawSpinner : MonoBehaviour
             popupLoopSource.Play();
         }
 
-        resultPopupRoot.SetActive(true);
-        popupContent.localScale = Vector3.one * popupStartScale;
+        if (resultPopupRoot != null) resultPopupRoot.SetActive(true);
 
-        popupTween?.Kill();
-        popupTween = popupContent
-            .DOScale(1f, popupOpenDuration)
-            .SetEase(popupOpenEase);
+        if (popupContent != null)
+        {
+            popupContent.localScale = Vector3.one * popupStartScale;
+
+            popupTween?.Kill();
+            popupTween = popupContent
+                .DOScale(1f, popupOpenDuration)
+                .SetEase(popupOpenEase);
+        }
     }
 
     public void ClosePopup()
     {
         if (popupLoopSource != null) popupLoopSource.Stop();
+
+        if (popupContent == null || resultPopupRoot == null)
+        {
+            if (resultPopupRoot != null) resultPopupRoot.SetActive(false);
+            SetSpinButtonState(true);
+            return;
+        }
 
         popupTween?.Kill();
         popupTween = popupContent
@@ -219,21 +289,26 @@ public class LuckyDrawSpinner : MonoBehaviour
 
     private void ResetAllVisuals()
     {
-        foreach (var s in slots)
-            if (s != null)
-                s.ResetVisual(idleBulbColor);
+        int count = SlotCount;
+        for (int i = 0; i < count; i++)
+        {
+            var s = GetSlot(i);
+            if (s != null) s.ResetVisual(idleBulbColor);
+        }
     }
 
     private void HighlightRunning(int index)
     {
         ResetAllVisuals();
-        slots[index].SetRunning(runningBulbColor, runningFrameColor);
+        var s = GetSlot(index);
+        if (s != null) s.SetRunning(runningBulbColor, runningFrameColor);
     }
 
     private void HighlightWin(int index)
     {
         ResetAllVisuals();
-        slots[index].SetWin(winBulbColor, winFrameColor);
+        var s = GetSlot(index);
+        if (s != null) s.SetWin(winBulbColor, winFrameColor);
     }
 
     private void SetSpinButtonState(bool enable)
@@ -260,7 +335,6 @@ public class LuckyDrawSpinner : MonoBehaviour
         }
     }
 
-
     private int GetForwardDistance(int from, int to, int count)
     {
         int d = to - from;
@@ -270,9 +344,11 @@ public class LuckyDrawSpinner : MonoBehaviour
 
     public void RefreshAllSlotTexts()
     {
-        if (slots == null) return;
-        foreach (var s in slots)
+        int count = SlotCount;
+        for (int i = 0; i < count; i++)
+        {
+            var s = GetSlot(i);
             if (s != null) s.RefreshNameUI();
+        }
     }
-
 }

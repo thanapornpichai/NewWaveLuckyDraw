@@ -12120,15 +12120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   store: {fileID: 1211115536}
-  slots:
-  - {fileID: 897358697}
-  - {fileID: 418463592}
-  - {fileID: 501176499}
-  - {fileID: 1272716485}
-  - {fileID: 696223188}
-  - {fileID: 1601300285}
-  - {fileID: 284431527}
-  - {fileID: 1342598103}
+  slotsRegistry: {fileID: 1772124796}
 --- !u!114 &1211115539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12142,15 +12134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropdown: {fileID: 1095800703}
-  slots:
-  - {fileID: 897358697}
-  - {fileID: 418463592}
-  - {fileID: 501176499}
-  - {fileID: 1272716485}
-  - {fileID: 696223188}
-  - {fileID: 1601300285}
-  - {fileID: 284431527}
-  - {fileID: 1342598103}
+  slotsRegistry: {fileID: 1772124796}
 --- !u!1 &1216506023
 GameObject:
   m_ObjectHideFlags: 0
@@ -19189,6 +19173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1772124794}
   - component: {fileID: 1772124793}
+  - component: {fileID: 1772124796}
   - component: {fileID: 1772124795}
   m_Layer: 0
   m_Name: '[Script] - DrawController'
@@ -19209,15 +19194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7636b44d968f6c7498c914b0ac4b8ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slots:
-  - {fileID: 897358697}
-  - {fileID: 418463592}
-  - {fileID: 501176499}
-  - {fileID: 1272716485}
-  - {fileID: 696223188}
-  - {fileID: 1601300285}
-  - {fileID: 284431527}
-  - {fileID: 1342598103}
+  slotsRegistry: {fileID: 1772124796}
   iconProvider: {fileID: 1211115533}
   idleBulbColor: {r: 1, g: 1, b: 1, a: 1}
   runningBulbColor: {r: 1, g: 0.95, b: 0.3, a: 1}
@@ -19362,6 +19339,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1772124796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772124792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 747f36b1393322743b1270a1db772cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotsRoot: {fileID: 177173150}
+  includeInactive: 1
+  autoRefreshOnEnable: 1
 --- !u!1 &1807955780
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,92 +6,120 @@ public class RewardSlotSelectorDropdown : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private TMP_Dropdown dropdown;
-    [SerializeField] private RewardSlotView[] slots;
+
+    [Header("Slots (from Registry)")]
+    [SerializeField] private RewardSlotsRegistry slotsRegistry;
 
     public RewardSlotView CurrentSlot { get; private set; }
+
+    private readonly List<RewardSlotView> cachedList = new List<RewardSlotView>();
 
     private void Awake()
     {
         if (dropdown == null) dropdown = GetComponent<TMP_Dropdown>();
 
-        RebuildOptions();
+        if (slotsRegistry != null)
+            slotsRegistry.OnSlotsChanged += HandleSlotsChanged;
 
         if (dropdown != null)
             dropdown.onValueChanged.AddListener(OnDropdownChanged);
+    }
 
-        if (slots != null && slots.Length > 0)
+    private void Start()
+    {
+        slotsRegistry?.RefreshSlots();
+        RebuildOptions();
+
+        if (CurrentSlot == null && cachedList.Count > 0)
             SetCurrentByIndex(0);
+    }
+
+    private void OnDestroy()
+    {
+        if (slotsRegistry != null)
+            slotsRegistry.OnSlotsChanged -= HandleSlotsChanged;
+
+        if (dropdown != null)
+            dropdown.onValueChanged.RemoveListener(OnDropdownChanged);
+    }
+
+    private void HandleSlotsChanged()
+    {
+        RebuildOptions();
     }
 
     public void RebuildOptions()
     {
         if (dropdown == null) return;
 
-        var prev = CurrentSlot; 
+        var prev = CurrentSlot;
 
         dropdown.ClearOptions();
+        cachedList.Clear();
 
         var opts = new List<TMP_Dropdown.OptionData>();
-        var list = new List<RewardSlotView>();
 
-        if (slots != null)
+        if (slotsRegistry != null && slotsRegistry.Slots != null)
         {
-            foreach (var s in slots)
+            var slots = slotsRegistry.Slots;
+            for (int i = 0; i < slots.Count; i++)
             {
+                var s = slots[i];
                 if (s == null) continue;
-                list.Add(s);
+
+                cachedList.Add(s);
                 opts.Add(new TMP_Dropdown.OptionData($"{s.rewardId} - {s.rewardName}"));
             }
         }
 
         dropdown.AddOptions(opts);
 
-        CurrentSlot = prev != null ? prev : (list.Count > 0 ? list[0] : null);
-        int idx = (CurrentSlot != null) ? list.IndexOf(CurrentSlot) : 0;
+        if (prev != null && cachedList.Contains(prev))
+            CurrentSlot = prev;
+        else
+            CurrentSlot = (cachedList.Count > 0) ? cachedList[0] : null;
+
+        int idx = (CurrentSlot != null) ? cachedList.IndexOf(CurrentSlot) : 0;
         if (idx < 0) idx = 0;
 
         dropdown.SetValueWithoutNotify(idx);
         dropdown.RefreshShownValue();
     }
 
-
     private void OnDropdownChanged(int index)
     {
         SetCurrentByIndex(index);
     }
 
-    private void SetCurrentByIndex(int dropdownIndex)
+    public void SetCurrentByIndex(int dropdownIndex)
     {
-        var list = new List<RewardSlotView>();
-        foreach (var s in slots)
-            if (s != null) list.Add(s);
+        if (cachedList.Count == 0) return;
 
-        if (list.Count == 0) return;
-
-        int clamped = Mathf.Clamp(dropdownIndex, 0, list.Count - 1);
-        CurrentSlot = list[clamped];
+        int clamped = Mathf.Clamp(dropdownIndex, 0, cachedList.Count - 1);
+        CurrentSlot = cachedList[clamped];
     }
 
-    public void SetSlots(RewardSlotView[] newSlots)
+    public void RefreshLabelsKeepSelection()
     {
-        slots = newSlots;
+        var prev = CurrentSlot;
         RebuildOptions();
-        SetCurrentByIndex(0);
+        CurrentSlot = prev != null && cachedList.Contains(prev) ? prev : CurrentSlot;
+        SyncValueToCurrent();
     }
 
     public void SyncValueToCurrent()
     {
-        if (dropdown == null || slots == null || CurrentSlot == null) return;
+        if (dropdown == null || CurrentSlot == null || cachedList.Count == 0) return;
 
-        var list = new List<RewardSlotView>();
-        foreach (var s in slots)
-            if (s != null) list.Add(s);
-
-        int index = list.IndexOf(CurrentSlot);
+        int index = cachedList.IndexOf(CurrentSlot);
         if (index < 0) index = 0;
 
         dropdown.SetValueWithoutNotify(index);
         dropdown.RefreshShownValue();
     }
 
+    public IReadOnlyList<RewardSlotView> GetCurrentList()
+    {
+        return cachedList;
+    }
 }
