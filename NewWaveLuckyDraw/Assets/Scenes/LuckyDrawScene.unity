@@ -2745,7 +2745,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rewardId: reward6
   rewardName: Food
-  weight: 60
+  weight: 50
   bulbImage: {fileID: 954428364}
   frameImage: {fileID: 2142048933}
   iconImage: {fileID: 692637662}
@@ -4295,7 +4295,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rewardId: reward1
   rewardName: Food
-  weight: 60
+  weight: 50
   bulbImage: {fileID: 597557363}
   frameImage: {fileID: 1091209580}
   iconImage: {fileID: 1157862451}
@@ -5056,7 +5056,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rewardId: reward2
   rewardName: Phone
-  weight: 10
+  weight: 50
   bulbImage: {fileID: 1420405908}
   frameImage: {fileID: 1679605668}
   iconImage: {fileID: 1534351811}
@@ -5812,7 +5812,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -30, y: 33}
+  m_AnchoredPosition: {x: -60, y: 33}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &587090447
@@ -5848,7 +5848,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -30, y: 33}
+  m_AnchoredPosition: {x: -60, y: 33}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &597557361
@@ -8547,7 +8547,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rewardId: reward0
   rewardName: Gift
-  weight: 80
+  weight: 50
   bulbImage: {fileID: 1421112387}
   frameImage: {fileID: 276552525}
   iconImage: {fileID: 762605822}
@@ -9316,7 +9316,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -30, y: 33}
+  m_AnchoredPosition: {x: -60, y: 33}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &950615249
@@ -9755,7 +9755,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -25.799988, y: -22.299988}
+  m_AnchoredPosition: {x: -25.800049, y: -22.300049}
   m_SizeDelta: {x: 242, y: 125}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &988562947
@@ -18135,7 +18135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rewardId: reward7
   rewardName: Gift
-  weight: 80
+  weight: 50
   bulbImage: {fileID: 604064508}
   frameImage: {fileID: 71228291}
   iconImage: {fileID: 289977505}
@@ -18179,7 +18179,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -30, y: 33}
+  m_AnchoredPosition: {x: -60, y: 33}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &1382327054
@@ -24391,7 +24391,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rewardId: reward5
   rewardName: Phone
-  weight: 10
+  weight: 50
   bulbImage: {fileID: 1200020302}
   frameImage: {fileID: 2066340363}
   iconImage: {fileID: 1615369867}
