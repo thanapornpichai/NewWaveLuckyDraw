@@ -5,13 +5,13 @@ using TMPro;
 public class RewardSlotView : MonoBehaviour
 {
     [Header("Identity")]
-    public string rewardId;       
-    public string rewardName;     
+    public string rewardId;
+    public string rewardName;
 
-    [Header("Weight (for chance)")]
+    [Header("Weight (chance)")]
     public int weight = 10;
 
-    [Header("UI References")]
+    [Header("UI")]
     public Image bulbImage;
     public Image frameImage;
     public Image iconImage;
@@ -19,8 +19,15 @@ public class RewardSlotView : MonoBehaviour
     [Header("Optional Name Text")]
     [SerializeField] private TMP_Text nameText;
 
-    [Header("Default Icon")]
+    [Header("Reward Icon Default")]
     public Sprite defaultSprite;
+
+    [Header("Bulb Sprites")]
+    public Sprite bulbIdleSprite;
+
+    public Sprite bulbRunSprite;
+
+    public Sprite bulbWinSprite;
 
     public void ApplyDefaultIcon()
     {
@@ -50,13 +57,24 @@ public class RewardSlotView : MonoBehaviour
 
     public void ResetVisual(Color idleBulbColor)
     {
-        if (bulbImage != null) bulbImage.color = idleBulbColor;
-        if (frameImage != null) frameImage.gameObject.SetActive(false);
+        if (bulbImage != null)
+        {
+            if (bulbIdleSprite != null) bulbImage.sprite = bulbIdleSprite;
+
+            bulbImage.color = Color.white;
+        }
+
+        if (frameImage != null)
+            frameImage.gameObject.SetActive(false);
     }
 
     public void SetRunning(Color runningBulbColor, Color runningFrameColor)
     {
-        if (bulbImage != null) bulbImage.color = runningBulbColor;
+        if (bulbImage != null)
+        {
+            if (bulbRunSprite != null) bulbImage.sprite = bulbRunSprite;
+            bulbImage.color = Color.white;
+        }
 
         if (frameImage != null)
         {
@@ -67,7 +85,13 @@ public class RewardSlotView : MonoBehaviour
 
     public void SetWin(Color winBulbColor, Color winFrameColor)
     {
-        if (bulbImage != null) bulbImage.color = winBulbColor;
+        if (bulbImage != null)
+        {
+            if (bulbWinSprite != null) bulbImage.sprite = bulbWinSprite;
+            else if (bulbRunSprite != null) bulbImage.sprite = bulbRunSprite;
+
+            bulbImage.color = Color.white;
+        }
 
         if (frameImage != null)
         {

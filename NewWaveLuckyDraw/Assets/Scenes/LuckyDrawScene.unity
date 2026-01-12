@@ -2676,6 +2676,9 @@ MonoBehaviour:
   iconImage: {fileID: 692637662}
   nameText: {fileID: 0}
   defaultSprite: {fileID: -441876662, guid: a3b1ab03e40dde742a3d98f58f16a155, type: 3}
+  bulbIdleSprite: {fileID: -577944204, guid: 359b40e3d49efeb44a644265618ab0eb, type: 3}
+  bulbRunSprite: {fileID: 112807814, guid: 6ed92032866378342806d2411704b52c, type: 3}
+  bulbWinSprite: {fileID: 0}
 --- !u!1 &289977503
 GameObject:
   m_ObjectHideFlags: 0
@@ -4294,6 +4297,9 @@ MonoBehaviour:
   iconImage: {fileID: 1157862451}
   nameText: {fileID: 0}
   defaultSprite: {fileID: -441876662, guid: a3b1ab03e40dde742a3d98f58f16a155, type: 3}
+  bulbIdleSprite: {fileID: -577944204, guid: 359b40e3d49efeb44a644265618ab0eb, type: 3}
+  bulbRunSprite: {fileID: 112807814, guid: 6ed92032866378342806d2411704b52c, type: 3}
+  bulbWinSprite: {fileID: 0}
 --- !u!1 &439773115
 GameObject:
   m_ObjectHideFlags: 0
@@ -5050,6 +5056,9 @@ MonoBehaviour:
   iconImage: {fileID: 1534351811}
   nameText: {fileID: 0}
   defaultSprite: {fileID: -81994313, guid: ee439cd3fd76cd8459aa922a9f112158, type: 3}
+  bulbIdleSprite: {fileID: -577944204, guid: 359b40e3d49efeb44a644265618ab0eb, type: 3}
+  bulbRunSprite: {fileID: 112807814, guid: 6ed92032866378342806d2411704b52c, type: 3}
+  bulbWinSprite: {fileID: 0}
 --- !u!1 &511454298
 GameObject:
   m_ObjectHideFlags: 0
@@ -7220,6 +7229,9 @@ MonoBehaviour:
   iconImage: {fileID: 616306526}
   nameText: {fileID: 0}
   defaultSprite: {fileID: -2084970879, guid: d9e70d32aa6564f479772c454637d866, type: 3}
+  bulbIdleSprite: {fileID: -577944204, guid: 359b40e3d49efeb44a644265618ab0eb, type: 3}
+  bulbRunSprite: {fileID: 112807814, guid: 6ed92032866378342806d2411704b52c, type: 3}
+  bulbWinSprite: {fileID: 0}
 --- !u!1 &734158357
 GameObject:
   m_ObjectHideFlags: 0
@@ -8533,6 +8545,9 @@ MonoBehaviour:
   iconImage: {fileID: 762605822}
   nameText: {fileID: 0}
   defaultSprite: {fileID: 431297409, guid: 924788eeef451aa478925cdd9ca28f3f, type: 3}
+  bulbIdleSprite: {fileID: -577944204, guid: 359b40e3d49efeb44a644265618ab0eb, type: 3}
+  bulbRunSprite: {fileID: 112807814, guid: 6ed92032866378342806d2411704b52c, type: 3}
+  bulbWinSprite: {fileID: 0}
 --- !u!1 &914652871
 GameObject:
   m_ObjectHideFlags: 0
@@ -18044,6 +18059,9 @@ MonoBehaviour:
   iconImage: {fileID: 1842427654}
   nameText: {fileID: 0}
   defaultSprite: {fileID: -2084970879, guid: d9e70d32aa6564f479772c454637d866, type: 3}
+  bulbIdleSprite: {fileID: -577944204, guid: 359b40e3d49efeb44a644265618ab0eb, type: 3}
+  bulbRunSprite: {fileID: 112807814, guid: 6ed92032866378342806d2411704b52c, type: 3}
+  bulbWinSprite: {fileID: 0}
 --- !u!1 &1333250393
 GameObject:
   m_ObjectHideFlags: 0
@@ -18375,6 +18393,9 @@ MonoBehaviour:
   iconImage: {fileID: 289977505}
   nameText: {fileID: 0}
   defaultSprite: {fileID: 431297409, guid: 924788eeef451aa478925cdd9ca28f3f, type: 3}
+  bulbIdleSprite: {fileID: -577944204, guid: 359b40e3d49efeb44a644265618ab0eb, type: 3}
+  bulbRunSprite: {fileID: 112807814, guid: 6ed92032866378342806d2411704b52c, type: 3}
+  bulbWinSprite: {fileID: 0}
 --- !u!1 &1344921877
 GameObject:
   m_ObjectHideFlags: 0
@@ -19662,6 +19683,9 @@ MonoBehaviour:
   iconImage: {fileID: 1615369867}
   nameText: {fileID: 0}
   defaultSprite: {fileID: -81994313, guid: ee439cd3fd76cd8459aa922a9f112158, type: 3}
+  bulbIdleSprite: {fileID: -577944204, guid: 359b40e3d49efeb44a644265618ab0eb, type: 3}
+  bulbRunSprite: {fileID: 112807814, guid: 6ed92032866378342806d2411704b52c, type: 3}
+  bulbWinSprite: {fileID: 0}
 --- !u!1 &1612508508
 GameObject:
   m_ObjectHideFlags: 0
