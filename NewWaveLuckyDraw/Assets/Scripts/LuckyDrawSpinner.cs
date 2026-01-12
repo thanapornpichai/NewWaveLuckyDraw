@@ -267,4 +267,12 @@ public class LuckyDrawSpinner : MonoBehaviour
         if (d < 0) d += count;
         return d;
     }
+
+    public void RefreshAllSlotTexts()
+    {
+        if (slots == null) return;
+        foreach (var s in slots)
+            if (s != null) s.RefreshNameUI();
+    }
+
 }

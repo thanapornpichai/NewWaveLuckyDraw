@@ -1,66 +1,128 @@
-using UnityEngine;
+using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class RewardNameEditButton : MonoBehaviour
 {
     [Header("Refs")]
+    [SerializeField] private RewardSlotSelectorDropdown selector;
     [SerializeField] private RewardNameStore_LocalJson store;
-    [SerializeField] private RewardSlotView targetSlot;
 
     [Header("UI")]
     [SerializeField] private TMP_InputField inputField;
     [SerializeField] private Button saveButton;
     [SerializeField] private Button resetButton;
 
-    private string defaultNameFromInspector;
+    private readonly Dictionary<string, string> defaultNameById = new Dictionary<string, string>();
 
     private void Awake()
     {
-        if (targetSlot != null)
-            defaultNameFromInspector = targetSlot.rewardName;
-
         if (saveButton != null) saveButton.onClick.AddListener(Save);
         if (resetButton != null) resetButton.onClick.AddListener(ResetToDefault);
 
-        SyncInputFromSlot();
+        CacheDefaultsFromSlots();
+        SyncInputFromSelected();
     }
 
-    public void SyncInputFromSlot()
+    private RewardSlotView GetSelectedSlot()
     {
-        if (inputField == null || targetSlot == null) return;
-        inputField.text = targetSlot.rewardName;
+        if (selector == null)
+        {
+            Debug.LogWarning("RewardNameEditButton: selector not set");
+            return null;
+        }
+
+        var slot = selector.CurrentSlot;
+        if (slot == null)
+        {
+            Debug.LogWarning("RewardNameEditButton: No slot selected");
+            return null;
+        }
+
+        if (string.IsNullOrEmpty(slot.rewardId))
+        {
+            Debug.LogWarning("RewardNameEditButton: selected slot rewardId is empty");
+            return null;
+        }
+
+        return slot;
+    }
+
+    private void CacheDefaultsFromSlots()
+    {
+        var slot = GetSelectedSlot();
+        if (slot == null) return;
+
+        if (!defaultNameById.ContainsKey(slot.rewardId))
+            defaultNameById[slot.rewardId] = slot.rewardName;
+    }
+
+    public void SyncInputFromSelected()
+    {
+        var slot = GetSelectedSlot();
+        if (slot == null || inputField == null) return;
+
+        if (!defaultNameById.ContainsKey(slot.rewardId))
+            defaultNameById[slot.rewardId] = slot.rewardName;
+
+        inputField.text = slot.rewardName;
     }
 
     public void Save()
     {
-        if (store == null || targetSlot == null || inputField == null) return;
-        if (string.IsNullOrEmpty(targetSlot.rewardId)) return;
+        var slot = GetSelectedSlot();
+        if (store == null || slot == null || inputField == null) return;
 
         string newName = inputField.text?.Trim();
-        targetSlot.SetRewardName(newName);
+        if (string.IsNullOrEmpty(newName))
+        {
+            Debug.LogWarning("RewardNameEditButton: name is empty");
+            return;
+        }
+
+        if (!defaultNameById.ContainsKey(slot.rewardId))
+            defaultNameById[slot.rewardId] = slot.rewardName;
+
+        slot.SetRewardName(newName);
 
         store.Load();
-        store.SetName(targetSlot.rewardId, newName);
+        store.SetName(slot.rewardId, newName);
         store.Save();
 
-        Debug.Log($"Saved reward name: {targetSlot.rewardId} => {newName}");
+        if (selector != null)
+        {
+            selector.RebuildOptions();      
+            selector.SyncValueToCurrent(); 
+        }
+
+        Debug.Log($"Saved reward name: {slot.rewardId} => {newName}");
     }
 
     public void ResetToDefault()
     {
-        if (store == null || targetSlot == null) return;
-        if (string.IsNullOrEmpty(targetSlot.rewardId)) return;
+        var slot = GetSelectedSlot();
+        if (store == null || slot == null) return;
 
-        targetSlot.SetRewardName(defaultNameFromInspector);
+        if (!defaultNameById.TryGetValue(slot.rewardId, out var defaultName))
+            defaultName = slot.rewardName;
+
+        slot.SetRewardName(defaultName);
 
         store.Load();
-        store.RemoveName(targetSlot.rewardId);
+        store.RemoveName(slot.rewardId);
         store.Save();
 
         if (inputField != null)
-            inputField.text = defaultNameFromInspector;
+            inputField.text = defaultName;
 
-        Debug.Log($"Reset reward name to default: {targetSlot.rewardId}");
+        if (selector != null)
+        {
+            selector.RebuildOptions();
+            selector.SyncValueToCurrent();
+        }
+
+        Debug.Log($"Reset reward name to default: {slot.rewardId}");
     }
+
 }

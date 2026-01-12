@@ -7,15 +7,13 @@ using UnityEngine.Networking;
 public class RewardIconChangeButton : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] private RewardSlotSelectorDropdown selector;
     [SerializeField] private RewardIconProvider_LocalFiles iconProvider;
     [SerializeField] private LuckyDrawSpinner spinnerToRefresh;
 
-    [Header("Which reward to change (must match RewardSlotView.rewardId)")]
-    [SerializeField] private string rewardId;
-
     [Header("Optional UI")]
-    [SerializeField] private Button pickButton;  
-    [SerializeField] private Button resetButton;  
+    [SerializeField] private Button pickButton;
+    [SerializeField] private Button resetButton;
     [SerializeField] private bool autoDisableWhilePicking = true;
 
     private void Awake()
@@ -26,6 +24,30 @@ public class RewardIconChangeButton : MonoBehaviour
         if (resetButton != null) resetButton.onClick.AddListener(ClearOverride);
     }
 
+    private RewardSlotView GetSelectedSlot()
+    {
+        if (selector == null)
+        {
+            Debug.LogWarning("RewardIconChangeButton: selector not set");
+            return null;
+        }
+
+        var slot = selector.CurrentSlot;
+        if (slot == null)
+        {
+            Debug.LogWarning("RewardIconChangeButton: No slot selected");
+            return null;
+        }
+
+        if (string.IsNullOrEmpty(slot.rewardId))
+        {
+            Debug.LogWarning("RewardIconChangeButton: selected slot rewardId is empty");
+            return null;
+        }
+
+        return slot;
+    }
+
     public void OnClickPick()
     {
         if (iconProvider == null)
@@ -34,11 +56,8 @@ public class RewardIconChangeButton : MonoBehaviour
             return;
         }
 
-        if (string.IsNullOrEmpty(rewardId))
-        {
-            Debug.LogWarning("RewardIconChangeButton: rewardId is empty");
-            return;
-        }
+        var slot = GetSelectedSlot();
+        if (slot == null) return;
 
         if (autoDisableWhilePicking && pickButton != null)
             pickButton.interactable = false;
@@ -55,12 +74,12 @@ public class RewardIconChangeButton : MonoBehaviour
             }
 
             Debug.Log("Picked file path/uri: " + path);
-            StartCoroutine(CopyToSandboxAndRefresh(path));
+            StartCoroutine(CopyToSandboxAndRefresh(slot.rewardId, path));
 
         }, "image/*");
     }
 
-    private IEnumerator CopyToSandboxAndRefresh(string pickedPathOrUri)
+    private IEnumerator CopyToSandboxAndRefresh(string rewardId, string pickedPathOrUri)
     {
         iconProvider.EnsureFolder();
 
@@ -129,23 +148,22 @@ public class RewardIconChangeButton : MonoBehaviour
 
     public void ClearOverride()
     {
-        if (iconProvider == null || string.IsNullOrEmpty(rewardId))
-            return;
+        if (iconProvider == null) return;
 
-        iconProvider.ClearOverride(rewardId);
+        var slot = GetSelectedSlot();
+        if (slot == null) return;
+
+        iconProvider.ClearOverride(slot.rewardId);
 
         if (spinnerToRefresh != null)
             spinnerToRefresh.ReloadRewardImages();
 
-        Debug.Log($"Override cleared. Back to default for id: {rewardId}");
+        Debug.Log($"Override cleared. Back to default for id: {slot.rewardId}");
     }
 
     private void SafeDelete(string path)
     {
-        try
-        {
-            if (File.Exists(path)) File.Delete(path);
-        }
+        try { if (File.Exists(path)) File.Delete(path); }
         catch { }
     }
 }
