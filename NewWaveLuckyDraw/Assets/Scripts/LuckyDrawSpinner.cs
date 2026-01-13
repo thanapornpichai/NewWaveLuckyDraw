@@ -6,10 +6,10 @@ using DG.Tweening;
 
 public class LuckyDrawSpinner : MonoBehaviour
 {
-    [Header("Slots (from Registry)")]
+    [Header("Slots Registry")]
     [SerializeField] private RewardSlotsRegistry slotsRegistry;
 
-    [Header("Optional: Icon Provider (Local Files)")]
+    [Header("Icon Provider")]
     [SerializeField] private RewardIconProvider_LocalFiles iconProvider;
 
     [Header("Colors")]
@@ -18,14 +18,18 @@ public class LuckyDrawSpinner : MonoBehaviour
     [SerializeField] private Color runningFrameColor = new Color(1f, 0.95f, 0.3f, 1f);
     [SerializeField] private Color winBulbColor = Color.green;
     [SerializeField] private Color winFrameColor = Color.green;
+    [SerializeField] private Color failBulbColor = new Color(1f, 0.35f, 0.35f, 1f);
+    [SerializeField] private Color failFrameColor = new Color(1f, 0.35f, 0.35f, 1f);
 
     [Header("Spin Timing")]
     [SerializeField] private float startStepDelay = 0.04f;
     [SerializeField] private float endStepDelay = 0.12f;
-    [SerializeField] private int minCycles = 1;
-    [SerializeField] private int maxCycles = 2;
+    [SerializeField] private int minCycles = 3;
+    [SerializeField] private int maxCycles = 5;
     [SerializeField] private int extraStepsMin = 0;
     [SerializeField] private int extraStepsMax = 3;
+    [SerializeField] private int finalSlowSteps = 3;                 
+    [SerializeField] private float finalSlowDelayMultiplier = 2.2f;
 
     [Header("Result Popup")]
     [SerializeField] private GameObject resultPopupRoot;
@@ -45,19 +49,25 @@ public class LuckyDrawSpinner : MonoBehaviour
     [SerializeField] private Button spinButton;
 
     [Header("Spin Button Tween")]
-    [SerializeField] private float pulseScale = 1.1f;
     [SerializeField] private float pulseDuration = 0.6f;
 
     [Header("Spin Button Scale")]
     [SerializeField] private float spinButtonBaseScale = 0.48f;
     [SerializeField] private float spinButtonPulseScale = 0.6f;
 
+    [Header("Result Particles")]
+    [SerializeField] private GameObject[] winParticles;
+
+    [Header("Fail RewardId")]
+    [SerializeField] private string[] failRewardIds;
+
     [Header("Audio")]
     [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioSource popupLoopSource;
     [SerializeField] private AudioClip spinClickSfx;
     [SerializeField] private AudioClip tickStepSfx;
-    [SerializeField] private AudioClip popupLoopSfx;
+    [SerializeField] private AudioClip winSfx;    
+    [SerializeField] private AudioClip failSfx;
 
     private bool isSpinning;
     private int currentIndex = -1;
@@ -174,29 +184,62 @@ public class LuckyDrawSpinner : MonoBehaviour
             currentIndex = Random.Range(0, count);
 
         int cycles = Random.Range(minCycles, maxCycles + 1);
-        int extraSteps = Random.Range(extraStepsMin, extraStepsMax + 1);
-        int offset = GetForwardDistance(currentIndex, targetIndex, count);
-        int totalSteps = cycles * count + offset + extraSteps;
 
-        for (int i = 0; i < totalSteps; i++)
+        int offsetToTarget = GetForwardDistance(currentIndex, targetIndex, count);
+
+        int slowSteps = Mathf.Clamp(finalSlowSteps, 1, Mathf.Max(1, count - 1));
+
+        int preOffsetSteps = Mathf.Max(0, offsetToTarget - slowSteps);
+
+        int extraSteps = Random.Range(extraStepsMin, extraStepsMax + 1);
+
+        int totalRandomSteps = cycles * count + preOffsetSteps + extraSteps;
+        int totalAllSteps = totalRandomSteps + slowSteps;
+
+        for (int i = 0; i < totalRandomSteps; i++)
         {
-            int next = (currentIndex + Random.Range(1, 4)) % count;
+            int jump = Random.Range(1, 4);
+            int next = (currentIndex + jump) % count;
+
             HighlightRunning(next);
             currentIndex = next;
 
             if (tickStepSfx != null)
                 sfxSource.PlayOneShot(tickStepSfx);
 
-            float t = i / (float)totalSteps;
+            float t = (totalAllSteps <= 1) ? 1f : (i / (float)(totalAllSteps - 1));
             float delay = Mathf.Lerp(startStepDelay, endStepDelay, t);
+
+            yield return new WaitForSeconds(delay);
+        }
+
+        for (int k = 0; k < slowSteps; k++)
+        {
+            int next = (currentIndex + 1) % count;
+
+            HighlightRunning(next);
+            currentIndex = next;
+
+            if (tickStepSfx != null)
+                sfxSource.PlayOneShot(tickStepSfx);
+
+            float u = (slowSteps <= 1) ? 1f : (k / (float)(slowSteps - 1)); 
+            float baseDelay = Mathf.Lerp(startStepDelay, endStepDelay, 1f); 
+            float delay = Mathf.Lerp(baseDelay, baseDelay * finalSlowDelayMultiplier, u);
+
             yield return new WaitForSeconds(delay);
         }
 
         currentIndex = targetIndex;
-        HighlightWin(currentIndex);
+
+        var landedSlot = GetSlot(currentIndex);
+        bool isFail = IsFailSlot(landedSlot);
+
+        if (isFail) HighlightFail(currentIndex);
+        else HighlightWin(currentIndex);
 
         yield return new WaitForSeconds(showPopupDelay);
-        ShowResultPopup(currentIndex);
+        ShowResultPopup(currentIndex, isFail);
 
         isSpinning = false;
     }
@@ -232,7 +275,7 @@ public class LuckyDrawSpinner : MonoBehaviour
         return 0;
     }
 
-    private void ShowResultPopup(int index)
+    private void ShowResultPopup(int index, bool isFail)
     {
         var slot = GetSlot(index);
         if (slot == null) return;
@@ -246,13 +289,20 @@ public class LuckyDrawSpinner : MonoBehaviour
             resultIcon.preserveAspect = true;
         }
 
-        if (popupLoopSfx != null)
-        {
-            popupLoopSource.clip = popupLoopSfx;
-            popupLoopSource.Play();
-        }
+        if (resultPopupRoot != null)
+            resultPopupRoot.SetActive(true);
 
-        if (resultPopupRoot != null) resultPopupRoot.SetActive(true);
+        SetWinParticles(!isFail);
+
+        if (sfxSource != null)
+        {
+            var clip = isFail ? failSfx : winSfx;
+            if (clip != null)
+            {
+                sfxSource.Stop();
+                sfxSource.PlayOneShot(clip, 1f);
+            }
+        }
 
         if (popupContent != null)
         {
@@ -267,11 +317,16 @@ public class LuckyDrawSpinner : MonoBehaviour
 
     public void ClosePopup()
     {
-        if (popupLoopSource != null) popupLoopSource.Stop();
+        SetWinParticles(false);
+
+        if (popupLoopSource != null)
+            popupLoopSource.Stop();
 
         if (popupContent == null || resultPopupRoot == null)
         {
-            if (resultPopupRoot != null) resultPopupRoot.SetActive(false);
+            if (resultPopupRoot != null)
+                resultPopupRoot.SetActive(false);
+
             SetSpinButtonState(true);
             return;
         }
@@ -309,6 +364,13 @@ public class LuckyDrawSpinner : MonoBehaviour
         ResetAllVisuals();
         var s = GetSlot(index);
         if (s != null) s.SetWin(winBulbColor, winFrameColor);
+    }
+
+    private void HighlightFail(int index)
+    {
+        ResetAllVisuals();
+        var s = GetSlot(index);
+        if (s != null) s.SetRunning(failBulbColor, failFrameColor);
     }
 
     private void SetSpinButtonState(bool enable)
@@ -349,6 +411,34 @@ public class LuckyDrawSpinner : MonoBehaviour
         {
             var s = GetSlot(i);
             if (s != null) s.RefreshNameUI();
+        }
+    }
+
+    private bool IsFailSlot(RewardSlotView slot)
+    {
+        if (slot == null) return false;
+        if (failRewardIds == null || failRewardIds.Length == 0) return false;
+
+        string id = slot.rewardId;
+
+        if (string.IsNullOrEmpty(id)) return false;
+
+        for (int i = 0; i < failRewardIds.Length; i++)
+        {
+            if (!string.IsNullOrEmpty(failRewardIds[i]) && failRewardIds[i] == id)
+                return true;
+        }
+        return false;
+    }
+
+    private void SetWinParticles(bool active)
+    {
+        if (winParticles == null) return;
+
+        for (int i = 0; i < winParticles.Length; i++)
+        {
+            if (winParticles[i] != null)
+                winParticles[i].SetActive(active);
         }
     }
 }

@@ -7,7 +7,7 @@ public class RewardSlotSelectorDropdown : MonoBehaviour
     [Header("References")]
     [SerializeField] private TMP_Dropdown dropdown;
 
-    [Header("Slots (from Registry)")]
+    [Header("Slots Registry")]
     [SerializeField] private RewardSlotsRegistry slotsRegistry;
 
     public RewardSlotView CurrentSlot { get; private set; }

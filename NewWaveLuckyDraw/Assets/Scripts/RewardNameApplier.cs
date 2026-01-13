@@ -4,7 +4,7 @@ public class RewardNameApplier : MonoBehaviour
 {
     [SerializeField] private RewardNameStore_LocalJson store;
 
-    [Header("Slots (from Registry)")]
+    [Header("Slots Registry")]
     [SerializeField] private RewardSlotsRegistry slotsRegistry;
 
     private void Awake()

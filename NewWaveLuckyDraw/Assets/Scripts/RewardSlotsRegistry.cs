@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RewardSlotsRegistry : MonoBehaviour
 {
-    [Header("Where slots live (parent transform)")]
+    [Header("Slot Root")]
     [SerializeField] private Transform slotsRoot;
 
     [Header("Options")]

@@ -8,7 +8,7 @@ public class RewardSlotView : MonoBehaviour
     public string rewardId;
     public string rewardName;
 
-    [Header("Weight (chance)")]
+    [Header("Pacentage")]
     public int weight = 10;
 
     [Header("UI")]

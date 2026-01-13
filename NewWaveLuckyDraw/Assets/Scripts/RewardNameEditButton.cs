@@ -36,7 +36,7 @@ public class RewardNameEditButton : MonoBehaviour
         var slot = selector.CurrentSlot;
         if (slot == null)
         {
-            Debug.LogWarning("RewardNameEditButton: No slot selected");
+            //Debug.LogWarning("RewardNameEditButton: No slot selected");
             return null;
         }
 
