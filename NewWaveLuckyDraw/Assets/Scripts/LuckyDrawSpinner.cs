@@ -28,7 +28,7 @@ public class LuckyDrawSpinner : MonoBehaviour
     [SerializeField] private int maxCycles = 5;
     [SerializeField] private int extraStepsMin = 0;
     [SerializeField] private int extraStepsMax = 3;
-    [SerializeField] private int finalSlowSteps = 3;                 
+    [SerializeField] private int finalSlowSteps = 3;
     [SerializeField] private float finalSlowDelayMultiplier = 2.2f;
 
     [Header("Result Popup")]
@@ -55,8 +55,20 @@ public class LuckyDrawSpinner : MonoBehaviour
     [SerializeField] private float spinButtonBaseScale = 0.48f;
     [SerializeField] private float spinButtonPulseScale = 0.6f;
 
-    [Header("Result Particles")]
-    [SerializeField] private GameObject[] winParticles;
+    [Header("Result Effect Groups")]
+    [SerializeField] private GameObject winEffectRoot;
+
+    [SerializeField] private GameObject loseEffectRoot1;
+    [SerializeField] private GameObject loseEffectRoot2;
+
+    [Header("Lose Effect RewardIds")]
+    [SerializeField] private string loseEffectRewardId1 = "reward4";
+    [SerializeField] private string loseEffectRewardId2 = "reward5";
+
+    [Header("Effect Tween")]
+    [SerializeField] private float effectStartScale = 0.6f;
+    [SerializeField] private float effectOpenDuration = 0.4f;
+    [SerializeField] private Ease effectOpenEase = Ease.OutBack;
 
     [Header("Fail RewardId")]
     [SerializeField] private string[] failRewardIds;
@@ -66,7 +78,7 @@ public class LuckyDrawSpinner : MonoBehaviour
     [SerializeField] private AudioSource popupLoopSource;
     [SerializeField] private AudioClip spinClickSfx;
     [SerializeField] private AudioClip tickStepSfx;
-    [SerializeField] private AudioClip winSfx;    
+    [SerializeField] private AudioClip winSfx;
     [SerializeField] private AudioClip failSfx;
 
     private bool isSpinning;
@@ -75,6 +87,10 @@ public class LuckyDrawSpinner : MonoBehaviour
     private Tween spinButtonTween;
     private RectTransform spinButtonRect;
     private Tween popupTween;
+
+    private Tween winEffectTween;
+    private Tween loseEffect1Tween;
+    private Tween loseEffect2Tween;
 
     private void Awake()
     {
@@ -110,8 +126,13 @@ public class LuckyDrawSpinner : MonoBehaviour
 
         ReloadRewardImages();
         ResetAllVisuals();
+        RefreshAllSlotTexts();
+        RefreshAllSlotStocksAndAvailability();
 
         if (resultPopupRoot != null) resultPopupRoot.SetActive(false);
+
+        DisableAllResultEffects();
+        UpdateSpinAvailability();
         SetSpinButtonState(true);
     }
 
@@ -124,6 +145,9 @@ public class LuckyDrawSpinner : MonoBehaviour
         ReloadRewardImages();
         ResetAllVisuals();
         RefreshAllSlotTexts();
+        RefreshAllSlotStocksAndAvailability();
+
+        UpdateSpinAvailability();
     }
 
     private int SlotCount => (slotsRegistry != null && slotsRegistry.Slots != null) ? slotsRegistry.Slots.Count : 0;
@@ -158,6 +182,9 @@ public class LuckyDrawSpinner : MonoBehaviour
         if (resultPopupRoot != null && resultPopupRoot.activeSelf) return;
         if (SlotCount <= 0) return;
 
+        UpdateSpinAvailability();
+        if (spinButton != null && !spinButton.interactable) return;
+
         isSpinning = true;
         SetSpinButtonState(false);
 
@@ -178,7 +205,15 @@ public class LuckyDrawSpinner : MonoBehaviour
             yield break;
         }
 
-        int targetIndex = GetWeightedRandomIndex();
+        int targetIndex = GetWeightedRandomIndex_AvailableOnly();
+
+        if (targetIndex < 0)
+        {
+            isSpinning = false;
+            UpdateSpinAvailability();
+            SetSpinButtonState(true);
+            yield break;
+        }
 
         if (currentIndex < 0)
             currentIndex = Random.Range(0, count);
@@ -223,8 +258,8 @@ public class LuckyDrawSpinner : MonoBehaviour
             if (tickStepSfx != null)
                 sfxSource.PlayOneShot(tickStepSfx);
 
-            float u = (slowSteps <= 1) ? 1f : (k / (float)(slowSteps - 1)); 
-            float baseDelay = Mathf.Lerp(startStepDelay, endStepDelay, 1f); 
+            float u = (slowSteps <= 1) ? 1f : (k / (float)(slowSteps - 1));
+            float baseDelay = Mathf.Lerp(startStepDelay, endStepDelay, 1f);
             float delay = Mathf.Lerp(baseDelay, baseDelay * finalSlowDelayMultiplier, u);
 
             yield return new WaitForSeconds(delay);
@@ -239,26 +274,29 @@ public class LuckyDrawSpinner : MonoBehaviour
         else HighlightWin(currentIndex);
 
         yield return new WaitForSeconds(showPopupDelay);
+
+        if (!isFail)
+            ConsumeRewardQuantity(landedSlot);
+
         ShowResultPopup(currentIndex, isFail);
 
         isSpinning = false;
     }
 
-    private int GetWeightedRandomIndex()
+    private int GetWeightedRandomIndex_AvailableOnly()
     {
         int count = SlotCount;
-        if (count <= 0) return 0;
+        if (count <= 0) return -1;
 
         int total = 0;
         for (int i = 0; i < count; i++)
         {
             var s = GetSlot(i);
-            if (s != null)
-                total += Mathf.Max(0, s.weight);
+            if (!IsSelectableSlot(s)) continue;
+            total += Mathf.Max(0, s.weight);
         }
 
-        if (total <= 0)
-            return Random.Range(0, count);
+        if (total <= 0) return -1;
 
         int rand = Random.Range(0, total);
         int sum = 0;
@@ -266,13 +304,53 @@ public class LuckyDrawSpinner : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             var s = GetSlot(i);
-            if (s == null) continue;
+            if (!IsSelectableSlot(s)) continue;
 
             sum += Mathf.Max(0, s.weight);
             if (rand < sum) return i;
         }
 
-        return 0;
+        return -1;
+    }
+
+    private bool IsSelectableSlot(RewardSlotView slot)
+    {
+        if (slot == null) return false;
+
+        if (IsFailSlot(slot))
+            return HasAnyRewardAvailable();
+
+        return slot.quantity > 0 && slot.weight > 0;
+    }
+
+    private bool HasAnyRewardAvailable()
+    {
+        int count = SlotCount;
+        for (int i = 0; i < count; i++)
+        {
+            var s = GetSlot(i);
+            if (s == null) continue;
+            if (IsFailSlot(s)) continue;
+
+            if (s.quantity > 0 && s.weight > 0)
+                return true;
+        }
+        return false;
+    }
+
+    private void ConsumeRewardQuantity(RewardSlotView slot)
+    {
+        if (slot == null) return;
+
+        if (slot.quantity > 0)
+            slot.quantity--;
+
+        slot.RefreshQuantityUI();
+        slot.SaveQuantityToPrefs();
+
+        slot.SetUnavailable(slot.quantity <= 0);
+
+        UpdateSpinAvailability();
     }
 
     private void ShowResultPopup(int index, bool isFail)
@@ -292,7 +370,7 @@ public class LuckyDrawSpinner : MonoBehaviour
         if (resultPopupRoot != null)
             resultPopupRoot.SetActive(true);
 
-        SetWinParticles(!isFail);
+        SetResultEffects(isFail, slot.rewardId);
 
         if (sfxSource != null)
         {
@@ -317,8 +395,8 @@ public class LuckyDrawSpinner : MonoBehaviour
 
     public void ClosePopup()
     {
-        SetWinParticles(false);
-
+        DisableAllResultEffects();
+        sfxSource.Stop();
         if (popupLoopSource != null)
             popupLoopSource.Stop();
 
@@ -327,6 +405,7 @@ public class LuckyDrawSpinner : MonoBehaviour
             if (resultPopupRoot != null)
                 resultPopupRoot.SetActive(false);
 
+            UpdateSpinAvailability();
             SetSpinButtonState(true);
             return;
         }
@@ -338,6 +417,7 @@ public class LuckyDrawSpinner : MonoBehaviour
             .OnComplete(() =>
             {
                 resultPopupRoot.SetActive(false);
+                UpdateSpinAvailability();
                 SetSpinButtonState(true);
             });
     }
@@ -376,7 +456,7 @@ public class LuckyDrawSpinner : MonoBehaviour
     private void SetSpinButtonState(bool enable)
     {
         if (spinButton != null)
-            spinButton.interactable = enable;
+            spinButton.interactable = enable && spinButton.interactable;
 
         if (spinButtonRect == null) return;
 
@@ -420,7 +500,6 @@ public class LuckyDrawSpinner : MonoBehaviour
         if (failRewardIds == null || failRewardIds.Length == 0) return false;
 
         string id = slot.rewardId;
-
         if (string.IsNullOrEmpty(id)) return false;
 
         for (int i = 0; i < failRewardIds.Length; i++)
@@ -431,14 +510,118 @@ public class LuckyDrawSpinner : MonoBehaviour
         return false;
     }
 
-    private void SetWinParticles(bool active)
+    private void RefreshAllSlotStocksAndAvailability()
     {
-        if (winParticles == null) return;
-
-        for (int i = 0; i < winParticles.Length; i++)
+        int count = SlotCount;
+        for (int i = 0; i < count; i++)
         {
-            if (winParticles[i] != null)
-                winParticles[i].SetActive(active);
+            var s = GetSlot(i);
+            if (s == null) continue;
+
+            bool isFail = IsFailSlot(s);
+
+            s.SetQuantityVisible(!isFail);
+
+            if (!isFail)
+                s.LoadQuantityFromPrefs();
+
+            if (isFail)
+                s.SetUnavailable(false);
+            else
+                s.SetUnavailable(s.quantity <= 0);
         }
+    }
+
+    private void SetResultEffects(bool isFail, string rewardId)
+    {
+        DisableAllResultEffects();
+
+        if (!isFail)
+        {
+            if (winEffectRoot != null)
+            {
+                winEffectRoot.SetActive(true);
+                PlayEffectPop(winEffectRoot, ref winEffectTween);
+            }
+            return;
+        }
+
+        bool useLose1 = !string.IsNullOrEmpty(loseEffectRewardId1) && rewardId == loseEffectRewardId1;
+        bool useLose2 = !string.IsNullOrEmpty(loseEffectRewardId2) && rewardId == loseEffectRewardId2;
+
+        if (useLose1 && loseEffectRoot1 != null)
+        {
+            loseEffectRoot1.SetActive(true);
+            PlayEffectPop(loseEffectRoot1, ref loseEffect1Tween);
+        }
+        else if (useLose2 && loseEffectRoot2 != null)
+        {
+            loseEffectRoot2.SetActive(true);
+            PlayEffectPop(loseEffectRoot2, ref loseEffect2Tween);
+        }
+        else
+        {
+            if (loseEffectRoot1 != null)
+            {
+                loseEffectRoot1.SetActive(true);
+                PlayEffectPop(loseEffectRoot1, ref loseEffect1Tween);
+            }
+        }
+    }
+
+    private void PlayEffectPop(GameObject root, ref Tween tween)
+    {
+        if (root == null) return;
+
+        var rt = root.GetComponent<RectTransform>();
+        if (rt == null) return;
+
+        tween?.Kill();
+        rt.localScale = Vector3.one * effectStartScale;
+        tween = rt.DOScale(1f, effectOpenDuration).SetEase(effectOpenEase);
+    }
+
+    private void DisableAllResultEffects()
+    {
+        winEffectTween?.Kill();
+        loseEffect1Tween?.Kill();
+        loseEffect2Tween?.Kill();
+
+        if (winEffectRoot != null)
+            winEffectRoot.SetActive(false);
+
+        if (loseEffectRoot1 != null)
+            loseEffectRoot1.SetActive(false);
+
+        if (loseEffectRoot2 != null)
+            loseEffectRoot2.SetActive(false);
+    }
+
+    private void UpdateSpinAvailability()
+    {
+        bool hasAnySelectable = false;
+
+        int count = SlotCount;
+        for (int i = 0; i < count; i++)
+        {
+            var s = GetSlot(i);
+            if (IsSelectableSlot(s))
+            {
+                hasAnySelectable = true;
+                break;
+            }
+        }
+
+        if (spinButton != null)
+            spinButton.interactable = hasAnySelectable && !isSpinning && (resultPopupRoot == null || !resultPopupRoot.activeSelf);
+    }
+
+    public void AdminRefreshAll()
+    {
+        ReloadRewardImages();
+        RefreshAllSlotTexts();
+        RefreshAllSlotStocksAndAvailability();
+        ResetAllVisuals();
+        UpdateSpinAvailability();
     }
 }
