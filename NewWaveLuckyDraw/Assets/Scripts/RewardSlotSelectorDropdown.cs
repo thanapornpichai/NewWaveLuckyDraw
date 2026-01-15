@@ -10,6 +10,15 @@ public class RewardSlotSelectorDropdown : MonoBehaviour
     [Header("Slots Registry")]
     [SerializeField] private RewardSlotsRegistry slotsRegistry;
 
+    [Header("Filter Fail Rewards")]
+    [SerializeField] private bool hideFailRewardsInDropdown = true;
+
+    private static readonly HashSet<string> FAIL_REWARD_IDS = new HashSet<string>
+    {
+        "reward0",
+        "reward7"
+    };
+
     public RewardSlotView CurrentSlot { get; private set; }
 
     private readonly List<RewardSlotView> cachedList = new List<RewardSlotView>();
@@ -48,6 +57,13 @@ public class RewardSlotSelectorDropdown : MonoBehaviour
         RebuildOptions();
     }
 
+    private bool IsFailReward(RewardSlotView slot)
+    {
+        if (slot == null) return false;
+        if (string.IsNullOrEmpty(slot.rewardId)) return false;
+        return FAIL_REWARD_IDS.Contains(slot.rewardId);
+    }
+
     public void RebuildOptions()
     {
         if (dropdown == null) return;
@@ -67,9 +83,23 @@ public class RewardSlotSelectorDropdown : MonoBehaviour
                 var s = slots[i];
                 if (s == null) continue;
 
+                if (hideFailRewardsInDropdown && IsFailReward(s))
+                    continue;
+
                 cachedList.Add(s);
                 opts.Add(new TMP_Dropdown.OptionData($"{s.rewardId} - {s.rewardName}"));
             }
+        }
+
+        if (opts.Count == 0)
+        {
+            opts.Add(new TMP_Dropdown.OptionData("No rewards available"));
+            dropdown.AddOptions(opts);
+
+            CurrentSlot = null;
+            dropdown.SetValueWithoutNotify(0);
+            dropdown.RefreshShownValue();
+            return;
         }
 
         dropdown.AddOptions(opts);
@@ -93,7 +123,11 @@ public class RewardSlotSelectorDropdown : MonoBehaviour
 
     public void SetCurrentByIndex(int dropdownIndex)
     {
-        if (cachedList.Count == 0) return;
+        if (cachedList.Count == 0)
+        {
+            CurrentSlot = null;
+            return;
+        }
 
         int clamped = Mathf.Clamp(dropdownIndex, 0, cachedList.Count - 1);
         CurrentSlot = cachedList[clamped];
@@ -109,7 +143,9 @@ public class RewardSlotSelectorDropdown : MonoBehaviour
 
     public void SyncValueToCurrent()
     {
-        if (dropdown == null || CurrentSlot == null || cachedList.Count == 0) return;
+        if (dropdown == null) return;
+
+        if (CurrentSlot == null || cachedList.Count == 0) return;
 
         int index = cachedList.IndexOf(CurrentSlot);
         if (index < 0) index = 0;

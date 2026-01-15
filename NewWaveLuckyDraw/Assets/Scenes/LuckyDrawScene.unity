@@ -465,7 +465,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CASH
+  m_text: PHONE
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0aec7c6ebcfba3d4ab0b83f0ce6b0d29, type: 2}
   m_sharedMaterial: {fileID: 3605643623784535465, guid: 0aec7c6ebcfba3d4ab0b83f0ce6b0d29, type: 2}
@@ -798,7 +798,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &203772765
 RectTransform:
   m_ObjectHideFlags: 0
@@ -974,7 +974,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: FOOD
+  m_text: GIFT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0aec7c6ebcfba3d4ab0b83f0ce6b0d29, type: 2}
   m_sharedMaterial: {fileID: 3605643623784535465, guid: 0aec7c6ebcfba3d4ab0b83f0ce6b0d29, type: 2}
@@ -1238,10 +1238,10 @@ RectTransform:
   - {fileID: 1249074565}
   m_Father: {fileID: 177173150}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 225, y: -1152.8}
+  m_SizeDelta: {x: 450, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &284431527
 MonoBehaviour:
@@ -1256,7 +1256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardId: reward6
-  rewardName: FOOD
+  rewardName: GIFT
   weight: 50
   quantity: 1
   qtyText: {fileID: 489996905}
@@ -1266,7 +1266,7 @@ MonoBehaviour:
   frameImage: {fileID: 2142048933}
   iconImage: {fileID: 692637662}
   nameText: {fileID: 209482458}
-  defaultSprite: {fileID: 130352509, guid: df14b33c8fbd2a34caebc664d2130951, type: 3}
+  defaultSprite: {fileID: -1204183984, guid: 1b0422c2d944d7c46a1c86a1c18400bf, type: 3}
   bulbIdleSprite: {fileID: -1265207711, guid: 9a5ca0f2a6fa5fc4599f4fd6f5bfd54b, type: 3}
   bulbRunSprite: {fileID: 1912623414, guid: c39b3c2dd8e1a6f41a9d1924752a1217, type: 3}
   bulbWinSprite: {fileID: 0}
@@ -1309,7 +1309,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0011901855, y: 30}
+  m_AnchoredPosition: {x: -11, y: 5}
   m_SizeDelta: {x: 450, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &289977505
@@ -1332,7 +1332,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1204183984, guid: 1b0422c2d944d7c46a1c86a1c18400bf, type: 3}
+  m_Sprite: {fileID: 1698174506, guid: 536e88d613e02ed4e9c3fc9b5cc40ce2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1859,7 +1859,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &364534664
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2077,7 +2077,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &374469244
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2349,7 +2349,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &394477681
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2860,10 +2860,10 @@ RectTransform:
   - {fileID: 587090448}
   m_Father: {fileID: 177173150}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 778.31, y: -170}
+  m_SizeDelta: {x: 450, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &418463592
 MonoBehaviour:
@@ -2878,7 +2878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardId: reward1
-  rewardName: FOOD
+  rewardName: GIFT
   weight: 50
   quantity: 1
   qtyText: {fileID: 1095935520}
@@ -2888,7 +2888,7 @@ MonoBehaviour:
   frameImage: {fileID: 1091209580}
   iconImage: {fileID: 1157862451}
   nameText: {fileID: 1119492809}
-  defaultSprite: {fileID: 130352509, guid: df14b33c8fbd2a34caebc664d2130951, type: 3}
+  defaultSprite: {fileID: -1204183984, guid: 1b0422c2d944d7c46a1c86a1c18400bf, type: 3}
   bulbIdleSprite: {fileID: -1265207711, guid: 9a5ca0f2a6fa5fc4599f4fd6f5bfd54b, type: 3}
   bulbRunSprite: {fileID: 1912623414, guid: c39b3c2dd8e1a6f41a9d1924752a1217, type: 3}
   bulbWinSprite: {fileID: 0}
@@ -3204,10 +3204,10 @@ RectTransform:
   - {fileID: 1894082843}
   m_Father: {fileID: 177173150}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 225, y: -497.6}
+  m_SizeDelta: {x: 450, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &501176499
 MonoBehaviour:
@@ -3222,8 +3222,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardId: reward2
-  rewardName: PHONE
-  weight: 10
+  rewardName: FOOD
+  weight: 50
   quantity: 1
   qtyText: {fileID: 376906770}
   defaultQuantity: 1
@@ -3232,7 +3232,7 @@ MonoBehaviour:
   frameImage: {fileID: 1679605668}
   iconImage: {fileID: 1534351811}
   nameText: {fileID: 650004871}
-  defaultSprite: {fileID: 597001439, guid: 57a7dfc9cb8c8934884e054bd0673d7a, type: 3}
+  defaultSprite: {fileID: 130352509, guid: df14b33c8fbd2a34caebc664d2130951, type: 3}
   bulbIdleSprite: {fileID: -1265207711, guid: 9a5ca0f2a6fa5fc4599f4fd6f5bfd54b, type: 3}
   bulbRunSprite: {fileID: -1536021313, guid: 2127e84674b4cb947a2eb653d1f706fd, type: 3}
   bulbWinSprite: {fileID: 0}
@@ -3439,7 +3439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.408805, g: 0.408805, b: 0.408805, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.6666667}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3709,7 +3709,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -8, y: 2}
+  m_AnchoredPosition: {x: 0.0011901855, y: 30}
   m_SizeDelta: {x: 450, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &616306526
@@ -3732,7 +3732,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1158609865, guid: bb34395e227855447be7d60b48e962ee, type: 3}
+  m_Sprite: {fileID: -668237968, guid: 983ccf1a81ed0d84aa6a304a38aadb79, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4124,7 +4124,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: PHONE
+  m_text: FOOD
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0aec7c6ebcfba3d4ab0b83f0ce6b0d29, type: 2}
   m_sharedMaterial: {fileID: 3605643623784535465, guid: 0aec7c6ebcfba3d4ab0b83f0ce6b0d29, type: 2}
@@ -4710,7 +4710,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 130352509, guid: df14b33c8fbd2a34caebc664d2130951, type: 3}
+  m_Sprite: {fileID: -1204183984, guid: 1b0422c2d944d7c46a1c86a1c18400bf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4763,10 +4763,10 @@ RectTransform:
   - {fileID: 1948548829}
   m_Father: {fileID: 177173150}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 225, y: -825.2}
+  m_SizeDelta: {x: 450, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &696223188
 MonoBehaviour:
@@ -4781,8 +4781,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardId: reward4
-  rewardName: '-'
-  weight: 90
+  rewardName: CASH
+  weight: 20
   quantity: 0
   qtyText: {fileID: 394477682}
   defaultQuantity: 1
@@ -4791,7 +4791,7 @@ MonoBehaviour:
   frameImage: {fileID: 1841129936}
   iconImage: {fileID: 616306526}
   nameText: {fileID: 993717149}
-  defaultSprite: {fileID: -1158609865, guid: bb34395e227855447be7d60b48e962ee, type: 3}
+  defaultSprite: {fileID: -668237968, guid: 983ccf1a81ed0d84aa6a304a38aadb79, type: 3}
   bulbIdleSprite: {fileID: -1265207711, guid: 9a5ca0f2a6fa5fc4599f4fd6f5bfd54b, type: 3}
   bulbRunSprite: {fileID: 852782049, guid: c7d8b02d862596f45b7cb1ef3c92c997, type: 3}
   bulbWinSprite: {fileID: 0}
@@ -5378,7 +5378,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0011901855, y: 30}
+  m_AnchoredPosition: {x: -8, y: 2}
   m_SizeDelta: {x: 450, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &762605822
@@ -5401,7 +5401,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1204183984, guid: 1b0422c2d944d7c46a1c86a1c18400bf, type: 3}
+  m_Sprite: {fileID: -1158609865, guid: bb34395e227855447be7d60b48e962ee, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6352,10 +6352,10 @@ RectTransform:
   - {fileID: 1440801443}
   m_Father: {fileID: 177173150}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 225, y: -170}
+  m_SizeDelta: {x: 450, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &897358697
 MonoBehaviour:
@@ -6370,8 +6370,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardId: reward0
-  rewardName: GIFT
-  weight: 50
+  rewardName: '-'
+  weight: 90
   quantity: 2
   qtyText: {fileID: 2123882200}
   defaultQuantity: 1
@@ -6380,7 +6380,7 @@ MonoBehaviour:
   frameImage: {fileID: 276552525}
   iconImage: {fileID: 762605822}
   nameText: {fileID: 1270548245}
-  defaultSprite: {fileID: -1204183984, guid: 1b0422c2d944d7c46a1c86a1c18400bf, type: 3}
+  defaultSprite: {fileID: -1158609865, guid: bb34395e227855447be7d60b48e962ee, type: 3}
   bulbIdleSprite: {fileID: -1265207711, guid: 9a5ca0f2a6fa5fc4599f4fd6f5bfd54b, type: 3}
   bulbRunSprite: {fileID: -985509078, guid: 2018a0eea2dd4c64dab6b19b31576014, type: 3}
   bulbWinSprite: {fileID: 0}
@@ -6720,7 +6720,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &934532175
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7268,7 +7268,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -32.100006, y: -43.799988}
+  m_AnchoredPosition: {x: -32.099976, y: -43.80005}
   m_SizeDelta: {x: 242, y: 125}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &988562947
@@ -7353,10 +7353,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 934532174}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1211115541}
+        m_TargetAssemblyTypeName: AdminModeUnlocker, Assembly-CSharp
+        m_MethodName: OnSecretButtonClicked
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7382,7 +7382,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &993717148
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7422,7 +7422,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: FOOD
+  m_text: CASH
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0aec7c6ebcfba3d4ab0b83f0ce6b0d29, type: 2}
   m_sharedMaterial: {fileID: 3605643623784535465, guid: 0aec7c6ebcfba3d4ab0b83f0ce6b0d29, type: 2}
@@ -8837,7 +8837,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: FOOD
+  m_text: GIFT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0aec7c6ebcfba3d4ab0b83f0ce6b0d29, type: 2}
   m_sharedMaterial: {fileID: 3605643623784535465, guid: 0aec7c6ebcfba3d4ab0b83f0ce6b0d29, type: 2}
@@ -9219,7 +9219,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 130352509, guid: df14b33c8fbd2a34caebc664d2130951, type: 3}
+  m_Sprite: {fileID: -1204183984, guid: 1b0422c2d944d7c46a1c86a1c18400bf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -14423,6 +14423,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1211115535}
+  - component: {fileID: 1211115541}
   - component: {fileID: 1211115534}
   - component: {fileID: 1211115533}
   - component: {fileID: 1211115538}
@@ -14542,6 +14543,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dropdown: {fileID: 1095800703}
   slotsRegistry: {fileID: 1772124796}
+  hideFailRewardsInDropdown: 1
 --- !u!114 &1211115540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14559,6 +14561,21 @@ MonoBehaviour:
   spinner: {fileID: 1772124793}
   saveButton: {fileID: 1328225092}
   resetButton: {fileID: 1672637230}
+--- !u!114 &1211115541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211115532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5abe04e7f61fbb46aafa10663ba113a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  adminModeObject: {fileID: 934532174}
+  requiredClicks: 3
+  maxIntervalBetweenClicks: 1.2
 --- !u!1 &1216506023
 GameObject:
   m_ObjectHideFlags: 0
@@ -14746,7 +14763,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.408805, g: 0.408805, b: 0.408805, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.6666667}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -14858,7 +14875,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.408805, g: 0.408805, b: 0.408805, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.6666667}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -14900,7 +14917,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1270548244
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15054,10 +15071,10 @@ RectTransform:
   - {fileID: 945124554}
   m_Father: {fileID: 177173150}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 778.31, y: -497.6}
+  m_SizeDelta: {x: 450, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1272716485
 MonoBehaviour:
@@ -15072,8 +15089,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardId: reward3
-  rewardName: CASH
-  weight: 20
+  rewardName: PHONE
+  weight: 10
   quantity: 1
   qtyText: {fileID: 661170185}
   defaultQuantity: 1
@@ -15082,7 +15099,7 @@ MonoBehaviour:
   frameImage: {fileID: 802252588}
   iconImage: {fileID: 1842427654}
   nameText: {fileID: 115673240}
-  defaultSprite: {fileID: -668237968, guid: 983ccf1a81ed0d84aa6a304a38aadb79, type: 3}
+  defaultSprite: {fileID: 597001439, guid: 57a7dfc9cb8c8934884e054bd0673d7a, type: 3}
   bulbIdleSprite: {fileID: -1265207711, guid: 9a5ca0f2a6fa5fc4599f4fd6f5bfd54b, type: 3}
   bulbRunSprite: {fileID: 852782049, guid: c7d8b02d862596f45b7cb1ef3c92c997, type: 3}
   bulbWinSprite: {fileID: 0}
@@ -15383,10 +15400,10 @@ RectTransform:
   - {fileID: 569617183}
   m_Father: {fileID: 177173150}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 778.31, y: -1152.8}
+  m_SizeDelta: {x: 450, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1342598103
 MonoBehaviour:
@@ -15401,8 +15418,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardId: reward7
-  rewardName: GIFT
-  weight: 50
+  rewardName: '-'
+  weight: 90
   quantity: 2
   qtyText: {fileID: 2101713525}
   defaultQuantity: 1
@@ -15411,7 +15428,7 @@ MonoBehaviour:
   frameImage: {fileID: 71228291}
   iconImage: {fileID: 289977505}
   nameText: {fileID: 374469245}
-  defaultSprite: {fileID: -1204183984, guid: 1b0422c2d944d7c46a1c86a1c18400bf, type: 3}
+  defaultSprite: {fileID: 1698174506, guid: 536e88d613e02ed4e9c3fc9b5cc40ce2, type: 3}
   bulbIdleSprite: {fileID: -1265207711, guid: 9a5ca0f2a6fa5fc4599f4fd6f5bfd54b, type: 3}
   bulbRunSprite: {fileID: -985509078, guid: 2018a0eea2dd4c64dab6b19b31576014, type: 3}
   bulbWinSprite: {fileID: 0}
@@ -15941,7 +15958,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 597001439, guid: 57a7dfc9cb8c8934884e054bd0673d7a, type: 3}
+  m_Sprite: {fileID: 130352509, guid: df14b33c8fbd2a34caebc664d2130951, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -21022,7 +21039,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.408805, g: 0.408805, b: 0.408805, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.6666667}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -21082,10 +21099,10 @@ RectTransform:
   - {fileID: 1344921878}
   m_Father: {fileID: 177173150}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 778.31, y: -825.2}
+  m_SizeDelta: {x: 450, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1601300285
 MonoBehaviour:
@@ -21100,8 +21117,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardId: reward5
-  rewardName: '-'
-  weight: 90
+  rewardName: FOOD
+  weight: 50
   quantity: 0
   qtyText: {fileID: 203772766}
   defaultQuantity: 1
@@ -21110,7 +21127,7 @@ MonoBehaviour:
   frameImage: {fileID: 2066340363}
   iconImage: {fileID: 1615369867}
   nameText: {fileID: 364534665}
-  defaultSprite: {fileID: 1698174506, guid: 536e88d613e02ed4e9c3fc9b5cc40ce2, type: 3}
+  defaultSprite: {fileID: 130352509, guid: df14b33c8fbd2a34caebc664d2130951, type: 3}
   bulbIdleSprite: {fileID: -1265207711, guid: 9a5ca0f2a6fa5fc4599f4fd6f5bfd54b, type: 3}
   bulbRunSprite: {fileID: -1536021313, guid: 2127e84674b4cb947a2eb653d1f706fd, type: 3}
   bulbWinSprite: {fileID: 0}
@@ -21376,7 +21393,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -11, y: 5}
+  m_AnchoredPosition: {x: 0.0011901855, y: 30}
   m_SizeDelta: {x: 450, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1615369867
@@ -21399,7 +21416,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1698174506, guid: 536e88d613e02ed4e9c3fc9b5cc40ce2, type: 3}
+  m_Sprite: {fileID: 130352509, guid: df14b33c8fbd2a34caebc664d2130951, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -21543,7 +21560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.408805, g: 0.408805, b: 0.408805, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.6666667}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -22459,14 +22476,14 @@ MonoBehaviour:
   winEffectRoot: {fileID: 1147214424}
   loseEffectRoot1: {fileID: 1171237701}
   loseEffectRoot2: {fileID: 1924746214}
-  loseEffectRewardId1: reward4
-  loseEffectRewardId2: reward5
+  loseEffectRewardId1: reward0
+  loseEffectRewardId2: reward7
   effectStartScale: 0.6
   effectOpenDuration: 0.4
   effectOpenEase: 27
   failRewardIds:
-  - reward4
-  - reward5
+  - reward0
+  - reward7
   sfxSource: {fileID: 1772124795}
   popupLoopSource: {fileID: 0}
   spinClickSfx: {fileID: 8300000, guid: 7dffd8f4224fc95499e59c8e7b6dba5e, type: 3}
@@ -22810,7 +22827,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -668237968, guid: 983ccf1a81ed0d84aa6a304a38aadb79, type: 3}
+  m_Sprite: {fileID: 597001439, guid: 57a7dfc9cb8c8934884e054bd0673d7a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -23187,7 +23204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.408805, g: 0.408805, b: 0.408805, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.6666667}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -23667,7 +23684,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.408805, g: 0.408805, b: 0.408805, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.6666667}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -23743,7 +23760,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.408805, g: 0.408805, b: 0.408805, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.6666667}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -24056,7 +24073,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2101713524
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24192,7 +24209,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2123882199
 RectTransform:
   m_ObjectHideFlags: 0

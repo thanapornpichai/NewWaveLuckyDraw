@@ -9,7 +9,7 @@ public class AdminRewardQuantityEditor : MonoBehaviour
     [SerializeField] private TMP_InputField qtyInput;
     [SerializeField] private LuckyDrawSpinner spinner;
 
-    [Header("Buttons (hook by inspector)")]
+    [Header("Buttons")]
     [SerializeField] private Button saveButton;
     [SerializeField] private Button resetButton;
 

@@ -11,7 +11,7 @@ public class RewardSlotView : MonoBehaviour
     [Header("Chance Weight")]
     public int weight = 10;
 
-    [Header("Stock (non-fail rewards only)")]
+    [Header("Stock")]
     public int quantity = 1;
     [SerializeField] private TMP_Text qtyText;
 
@@ -119,6 +119,8 @@ public class RewardSlotView : MonoBehaviour
     {
         if (qtyText != null)
             qtyText.text = quantity.ToString();
+
+        UpdateQuantityVisibility();
     }
 
     public void SetQuantityVisible(bool visible)
@@ -145,6 +147,13 @@ public class RewardSlotView : MonoBehaviour
 
         if (iconImage != null) iconImage.color = tint;
         if (bulbImage != null) bulbImage.color = tint;
+    }
+    private void UpdateQuantityVisibility()
+    {
+        bool visible = quantity > 0;
+
+        if (qtyText != null)
+            qtyText.gameObject.SetActive(visible);
     }
 
     public void ResetVisual(Color idleBulbColor)
