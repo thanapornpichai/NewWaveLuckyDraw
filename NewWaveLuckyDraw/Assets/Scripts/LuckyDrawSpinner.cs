@@ -6,11 +6,17 @@ using DG.Tweening;
 
 public class LuckyDrawSpinner : MonoBehaviour
 {
+    [Header("Idle Integration")]
+    [SerializeField] private IdleModeController idleController;
+
     [Header("Slots Registry")]
     [SerializeField] private RewardSlotsRegistry slotsRegistry;
 
     [Header("Icon Provider")]
     [SerializeField] private RewardIconProvider_LocalFiles iconProvider;
+
+    [Header("Landing Stats")]
+    [SerializeField] private LuckyDrawLandingStats landingStats;
 
     [Header("Colors")]
     [SerializeField] private Color idleBulbColor = Color.white;
@@ -178,12 +184,16 @@ public class LuckyDrawSpinner : MonoBehaviour
 
     public void Spin()
     {
+        idleController?.RegisterUserActivity();
+
         if (isSpinning) return;
         if (resultPopupRoot != null && resultPopupRoot.activeSelf) return;
         if (SlotCount <= 0) return;
 
         UpdateSpinAvailability();
         if (spinButton != null && !spinButton.interactable) return;
+
+        idleController?.PushBlock();
 
         isSpinning = true;
         SetSpinButtonState(false);
@@ -202,6 +212,7 @@ public class LuckyDrawSpinner : MonoBehaviour
         if (count <= 0)
         {
             isSpinning = false;
+            idleController?.PopBlock();
             yield break;
         }
 
@@ -212,6 +223,7 @@ public class LuckyDrawSpinner : MonoBehaviour
             isSpinning = false;
             UpdateSpinAvailability();
             SetSpinButtonState(true);
+            idleController?.PopBlock();
             yield break;
         }
 
@@ -269,6 +281,8 @@ public class LuckyDrawSpinner : MonoBehaviour
 
         var landedSlot = GetSlot(currentIndex);
         bool isFail = IsFailSlot(landedSlot);
+
+        landingStats?.RecordLanding(landedSlot);
 
         if (isFail) HighlightFail(currentIndex);
         else HighlightWin(currentIndex);
@@ -395,6 +409,8 @@ public class LuckyDrawSpinner : MonoBehaviour
 
     public void ClosePopup()
     {
+        idleController?.RegisterUserActivity();
+
         DisableAllResultEffects();
         sfxSource.Stop();
         if (popupLoopSource != null)
@@ -407,6 +423,8 @@ public class LuckyDrawSpinner : MonoBehaviour
 
             UpdateSpinAvailability();
             SetSpinButtonState(true);
+
+            idleController?.PopBlock();
             return;
         }
 
@@ -419,6 +437,8 @@ public class LuckyDrawSpinner : MonoBehaviour
                 resultPopupRoot.SetActive(false);
                 UpdateSpinAvailability();
                 SetSpinButtonState(true);
+
+                idleController?.PopBlock();
             });
     }
 
